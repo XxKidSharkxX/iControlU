@@ -1,0 +1,16 @@
+name: iControlU
+version: 1.4.9.1
+main: me.firebreath15.icontrolu.iControlU
+commands:
+  icu:
+    description: Main command for iControlU
+    usage: /icu
+    permission: icu.use
+    permission-message: You don't have permission
+permissions:
+  icu.use:
+    default: op
+  icu.control:
+    default: op
+  icu.stop:
+    default: op
