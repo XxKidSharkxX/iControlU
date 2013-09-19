@@ -30,7 +30,7 @@ public class iControlU extends JavaPlugin{
 		this.getConfig().set("controllers", null);  //no ones controlled upon startup!
 		this.getConfig().set("controlled", null);  //no ones controlled upon startup!
 		this.saveConfig();
-		this.getServer().getPluginManager().registerEvents(new onMove2(this), this);
+		this.getServer().getPluginManager().registerEvents(new onMove(this), this);
 		this.getServer().getPluginManager().registerEvents(new onChat(this), this);
 		this.getServer().getPluginManager().registerEvents(new onLogout(this), this);
 		this.getServer().getPluginManager().registerEvents(new onHurt(this), this);
@@ -42,58 +42,59 @@ public class iControlU extends JavaPlugin{
 			if(sender instanceof Player){
 				if(args.length == 0 || args.length > 2){
 					//show help menu. they got their arguments wrong!
-					sender.sendMessage(ChatColor.YELLOW+"==========[ iControlU Help v1.4.9]==========");
+					sender.sendMessage(ChatColor.YELLOW+"==========[ iControlU Help v1.5]==========");
 					sender.sendMessage(ChatColor.BLUE+"/icu control <player>"+ChatColor.GREEN+" Enter Control Mode with <player>.");
-					sender.sendMessage(ChatColor.BLUE+"/icu stop"+ChatColor.GREEN+" Exit Control Mode");
-					sender.sendMessage(ChatColor.BLUE+"/icu inv <player>"+ChatColor.GREEN+" Open another player's inventory");
+					sender.sendMessage(ChatColor.BLUE+"/icu stop"+ChatColor.GREEN+" Exit Control Mode.");
+					sender.sendMessage(ChatColor.BLUE+"/icu inv <player>"+ChatColor.GREEN+" Open another player's inventory.");
 					sender.sendMessage(ChatColor.YELLOW+"              ==========              ");
 					sender.sendMessage(ChatColor.DARK_PURPLE+"Created by FireBreath15");
-					sender.sendMessage(ChatColor.YELLOW+"==========[ iControlU Help v1.4.9]==========");
+					sender.sendMessage(ChatColor.YELLOW+"==========[ iControlU Help v1.5]==========");
 				}
 				
 				if(args.length == 2){
-					if(args[0].equalsIgnoreCase("control")){
+					if(args[0].equalsIgnoreCase("player")){
 						if(sender.hasPermission("icu.control")){
-					String name = sender.getName();
-					if(!(this.getConfig().contains("controllers."+name))){
-						if(this.getServer().getPlayer(args[1]) != null){
-						Player victim = this.getServer().getPlayer(args[1]);
-						if(!(victim.hasPermission("icu.exempt"))){
-						//here
-						Player s = (Player)sender;
-						victim.hidePlayer(s);
-						s.teleport(victim);
-						s.hidePlayer(victim);
-						Player[] ps = this.getServer().getOnlinePlayers();
-						int pon = ps.length;
-						for(int i=0; i<pon; i++){
-							ps[i].hidePlayer(s);
-							// We get an array of online players. We also get a number of just how many
-							// players are online. We then cycle through every player and hide the
-							// sender from them. This will appear to other people as the victim only,
-							// not 2 players mashed into one body.
-						}
-						
-						this.getConfig().set("controlled."+victim.getName(), sender.getName());
-						this.getConfig().set("controllers."+sender.getName()+".person", victim.getName());
-						this.getConfig().set("controllers."+name+".controlling", true);
-						this.saveConfig();
-						s.sendMessage(ChatColor.GOLD+"[iControlU] "+ChatColor.BLUE+"Control Mode activated.");
-						s.sendMessage(ChatColor.GOLD+"[iControlU] "+ChatColor.BLUE+"You begun controlling "+ChatColor.GREEN+victim.getName());
-						s.sendMessage(ChatColor.GOLD+"[iControlU] "+ChatColor.BLUE+"You now control "+victim.getName()+"'s chats and movements.");
+							String name = sender.getName();
+							if(!(this.getConfig().contains("controllers."+name))){
+								if(this.getServer().getPlayer(args[1]) != null){
+								Player victim = this.getServer().getPlayer(args[1]);
+								if(!(victim.hasPermission("icu.exempt"))){
+									//here
+									Player s = (Player)sender;
+									victim.hidePlayer(s);
+									s.teleport(victim);
+									s.hidePlayer(victim);
+									Player[] ps = this.getServer().getOnlinePlayers();
+									int pon = ps.length;
+									for(int i=0; i<pon; i++){
+										ps[i].hidePlayer(s);
+										// We get an array of online players. We also get a number of just how many
+										// players are online. We then cycle through every player and hide the
+										// sender from them. This will appear to other people as the victim only,
+										// not 2 players mashed into one body.
+									}
+									
+									this.getConfig().set("controlled."+victim.getName(), sender.getName());
+									this.getConfig().set("controllers."+sender.getName()+".person", victim.getName());
+									this.getConfig().set("controllers."+name+".controlling", true);
+									this.saveConfig();
+									s.sendMessage(ChatColor.GOLD+"[iControlU] "+ChatColor.BLUE+"Control Mode activated.");
+									s.sendMessage(ChatColor.GOLD+"[iControlU] "+ChatColor.BLUE+"You begun controlling "+ChatColor.GREEN+victim.getName());
+									s.sendMessage(ChatColor.GOLD+"[iControlU] "+ChatColor.BLUE+"You now control "+victim.getName()+"'s chats and movements.");
+									}else{
+										sender.sendMessage(ChatColor.GOLD+"[iControlU]"+ChatColor.RED+"You can't control that player!");
+									}
+								}else{
+									sender.sendMessage(ChatColor.GOLD+"[iControlU]"+ChatColor.RED+"Player not found!");
+								}
+							}else{
+								sender.sendMessage(ChatColor.GOLD+"[iControlU]"+ChatColor.RED+"You're already controlling someone!");
+							}
 						}else{
-							sender.sendMessage(ChatColor.GOLD+"[iControlU]"+ChatColor.RED+"You can't control that player!");
+							sender.sendMessage(ChatColor.GOLD+"[iControlU]"+ChatColor.RED+"You don't have permission");
 						}
-						}else{
-							sender.sendMessage(ChatColor.GOLD+"[iControlU]"+ChatColor.RED+"Player not found!");
-						}
-					}else{
-						sender.sendMessage(ChatColor.GOLD+"[iControlU]"+ChatColor.RED+"You're already controlling someone!");
 					}
-					}else{
-						sender.sendMessage(ChatColor.GOLD+"[iControlU]"+ChatColor.RED+"You don't have permission");
-					}
-					}
+					
 					if(args[0].equalsIgnoreCase("inv")){
 						if(sender.hasPermission("icu.inv")){
 							if(this.getServer().getPlayer(args[1]).isOnline()){
