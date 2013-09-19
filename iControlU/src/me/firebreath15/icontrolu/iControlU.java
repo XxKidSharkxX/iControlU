@@ -52,7 +52,7 @@ public class iControlU extends JavaPlugin{
 				}
 				
 				if(args.length == 2){
-					if(args[0].equalsIgnoreCase("player")){
+					if(args[0].equalsIgnoreCase("control")){
 						if(sender.hasPermission("icu.control")){
 							String name = sender.getName();
 							if(!(this.getConfig().contains("controllers."+name))){
