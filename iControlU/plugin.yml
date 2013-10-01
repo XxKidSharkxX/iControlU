@@ -1,5 +1,5 @@
 name: iControlU
-version: 1.5.1
+version: 1.5.2
 main: me.firebreath15.icontrolu.iControlU
 commands:
   icu:
@@ -9,10 +9,12 @@ commands:
     permission-message: You don't have permission
 permissions:
   icu.use:
-    default: op
+    default: true
   icu.control:
     default: op
   icu.stop:
     default: op
   icu.inv:
     default: op
+  icu.exempt:
+    default: false

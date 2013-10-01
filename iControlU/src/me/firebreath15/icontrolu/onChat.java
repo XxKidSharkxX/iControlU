@@ -1,13 +1,14 @@
 package me.firebreath15.icontrolu;
 
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
-import org.bukkit.event.Listener;
 import org.bukkit.event.EventHandler;
-import org.bukkit.event.player.PlayerChatEvent;
+import org.bukkit.event.EventPriority;
+import org.bukkit.event.Listener;
+import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 
-@SuppressWarnings("deprecation")
 public class onChat implements Listener{
 	
 	iControlU plugin;
@@ -15,27 +16,19 @@ public class onChat implements Listener{
 		plugin = c;
 	}
 		
-	@EventHandler
-	public void OnChat(PlayerChatEvent event){
-		Player player = event.getPlayer();
-		String n = player.getName();
-		String msg = event.getMessage();
-		
-		if(plugin.getConfig().contains("controllers."+n)){
-			event.setCancelled(true);
-			String vname = plugin.getConfig().getString("controllers."+player.getName()+".person");
-			Player victim = player.getServer().getPlayer(vname);
-			victim.chat("icu"+event.getMessage());
+	@EventHandler (priority = EventPriority.HIGHEST)
+	public void OnChat(AsyncPlayerChatEvent e){
+		Player p = e.getPlayer();
+		String msg = e.getMessage();
+		if(plugin.getConfig().contains("controllers."+p.getName())){
+			e.setCancelled(true);
+			String vname = plugin.getConfig().getString("controllers."+p.getName()+".person");
+			Player victim = Bukkit.getServer().getPlayer(vname);
+			String dn = victim.getDisplayName();
+			Bukkit.getServer().broadcastMessage("<"+dn+"> "+msg);
 		}
-		
-		if(plugin.getConfig().contains("controlled."+n)){
-			if(!(msg.startsWith("icu"))){
-				event.setCancelled(true);
-				player.sendMessage(ChatColor.GOLD+"[iControlU] "+ChatColor.RED+"You cannot talk while being controlled!");
-			}else{
-				String nmsg = msg.replaceFirst("icu", "");
-				event.setMessage(nmsg);
-			}
+		if(plugin.getConfig().contains("controlled."+p.getName())){
+			e.setCancelled(true);
 		}
 	}
 	
