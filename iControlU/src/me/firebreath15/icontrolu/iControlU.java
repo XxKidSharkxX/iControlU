@@ -34,6 +34,7 @@ public class iControlU extends JavaPlugin{
 		this.getServer().getPluginManager().registerEvents(new onChat(this), this);
 		this.getServer().getPluginManager().registerEvents(new onLogout(this), this);
 		this.getServer().getPluginManager().registerEvents(new onHurt(this), this);
+		this.getServer().getPluginManager().registerEvents(new onInteract(this), this);
 	}
 	
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String args[]){
