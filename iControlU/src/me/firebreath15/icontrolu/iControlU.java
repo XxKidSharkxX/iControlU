@@ -48,13 +48,12 @@ public class iControlU extends JavaPlugin{
 			if(sender instanceof Player){
 				if(args.length == 0 || args.length > 2){
 					//show help menu. they got their arguments wrong!
-					sender.sendMessage(ChatColor.YELLOW+"==========[ iControlU Help v1.5]==========");
+					sender.sendMessage(ChatColor.YELLOW+"==========[ iControlU Help v1.5.6]==========");
 					sender.sendMessage(ChatColor.BLUE+"/icu control <player>"+ChatColor.GREEN+" Enter Control Mode with <player>.");
 					sender.sendMessage(ChatColor.BLUE+"/icu stop"+ChatColor.GREEN+" Exit Control Mode.");
-					sender.sendMessage(ChatColor.BLUE+"/icu inv <player>"+ChatColor.GREEN+" Open another player's inventory.");
 					sender.sendMessage(ChatColor.YELLOW+"              ==========              ");
 					sender.sendMessage(ChatColor.DARK_PURPLE+"Created by FireBreath15");
-					sender.sendMessage(ChatColor.YELLOW+"==========[ iControlU Help v1.5]==========");
+					sender.sendMessage(ChatColor.YELLOW+"==========[ iControlU Help v1.5.6]==========");
 				}
 				
 				if(args.length == 2){
@@ -103,21 +102,7 @@ public class iControlU extends JavaPlugin{
 						}else{
 							sender.sendMessage(ChatColor.GOLD+"[iControlU]"+ChatColor.RED+"You don't have permission");
 						}
-					}
-					
-					if(args[0].equalsIgnoreCase("inv")){
-						if(sender.hasPermission("icu.inv")){
-							if(this.getServer().getPlayer(args[1]).isOnline()){
-								Player pla = this.getServer().getPlayer(args[1]);
-								((Player)sender).openInventory(pla.getInventory());
-							}else{
-								sender.sendMessage(ChatColor.RED+"That player isn't online, or you typed their name wrong!");
-							}
-						}else{
-							sender.sendMessage(ChatColor.RED+"You don't have permission!");
-						}
-					}
-					
+					}					
 				}
 				
 				if(args.length == 1){
