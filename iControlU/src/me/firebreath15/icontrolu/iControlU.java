@@ -17,14 +17,18 @@ controllers.<name>.controlling = exists if the player is controlling someone.
 */
 package me.firebreath15.icontrolu;
 
+import org.bukkit.ChatColor;
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
-import org.bukkit.ChatColor;
-import org.bukkit.command.*;
+import org.bukkit.scheduler.BukkitTask;
 
 public class iControlU extends JavaPlugin{
+	
+	INVAPI api;
 	
 	public void onEnable(){
 		this.getConfig().set("controllers", null);  //no ones controlled upon startup!
@@ -35,6 +39,7 @@ public class iControlU extends JavaPlugin{
 		this.getServer().getPluginManager().registerEvents(new onLogout(this), this);
 		this.getServer().getPluginManager().registerEvents(new onHurt(this), this);
 		this.getServer().getPluginManager().registerEvents(new onInteract(this), this);
+		api=new INVAPI();
 	}
 	
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String args[]){
@@ -69,16 +74,20 @@ public class iControlU extends JavaPlugin{
 									int pon = ps.length;
 									for(int i=0; i<pon; i++){
 										ps[i].hidePlayer(s);
-										// We get an array of online players. We also get a number of just how many
-										// players are online. We then cycle through every player and hide the
-										// sender from them. This will appear to other people as the victim only,
-										// not 2 players mashed into one body.
 									}
 									
 									this.getConfig().set("controlled."+victim.getName(), sender.getName());
 									this.getConfig().set("controllers."+sender.getName()+".person", victim.getName());
 									this.getConfig().set("controllers."+name+".controlling", true);
 									this.saveConfig();
+									
+									api.storePlayerInventory(s.getName());
+									api.storePlayerArmor(s.getName());
+									s.getInventory().setContents(victim.getInventory().getContents());
+									s.getInventory().setArmorContents(victim.getInventory().getArmorContents());
+									@SuppressWarnings("unused")
+									BukkitTask sync = new InvSync(this).runTaskLater(this, 20);
+									
 									s.sendMessage(ChatColor.GOLD+"[iControlU] "+ChatColor.BLUE+"Control Mode activated.");
 									s.sendMessage(ChatColor.GOLD+"[iControlU] "+ChatColor.BLUE+"You begun controlling "+ChatColor.GREEN+victim.getName());
 									s.sendMessage(ChatColor.GOLD+"[iControlU] "+ChatColor.BLUE+"You now control "+victim.getName()+"'s chats and movements.");
@@ -108,6 +117,7 @@ public class iControlU extends JavaPlugin{
 							sender.sendMessage(ChatColor.RED+"You don't have permission!");
 						}
 					}
+					
 				}
 				
 				if(args.length == 1){
@@ -132,6 +142,9 @@ public class iControlU extends JavaPlugin{
 							// Now we cycle through every player online and show the sender to them. The controlling is over
 							// so we need to see the troll.
 						}
+						
+						api.restorePlayerInventory(s.getName());
+						api.restorePlayerArmor(s.getName());
 						
 						sender.sendMessage(ChatColor.GOLD+"[iControlU]"+ChatColor.RED+"You are no longer controlling someone");
 					}else{
