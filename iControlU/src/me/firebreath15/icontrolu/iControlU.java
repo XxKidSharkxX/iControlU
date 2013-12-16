@@ -48,12 +48,12 @@ public class iControlU extends JavaPlugin{
 			if(sender instanceof Player){
 				if(args.length == 0 || args.length > 2){
 					//show help menu. they got their arguments wrong!
-					sender.sendMessage(ChatColor.YELLOW+"==========[ iControlU Help v1.5.6]==========");
+					sender.sendMessage(ChatColor.YELLOW+"==========[ iControlU Help v1.5.7]==========");
 					sender.sendMessage(ChatColor.BLUE+"/icu control <player>"+ChatColor.GREEN+" Enter Control Mode with <player>.");
 					sender.sendMessage(ChatColor.BLUE+"/icu stop"+ChatColor.GREEN+" Exit Control Mode.");
 					sender.sendMessage(ChatColor.YELLOW+"              ==========              ");
 					sender.sendMessage(ChatColor.DARK_PURPLE+"Created by FireBreath15");
-					sender.sendMessage(ChatColor.YELLOW+"==========[ iControlU Help v1.5.6]==========");
+					sender.sendMessage(ChatColor.YELLOW+"==========[ iControlU Help v1.5.7]==========");
 				}
 				
 				if(args.length == 2){
@@ -91,16 +91,16 @@ public class iControlU extends JavaPlugin{
 									s.sendMessage(ChatColor.GOLD+"[iControlU] "+ChatColor.BLUE+"You begun controlling "+ChatColor.GREEN+victim.getName());
 									s.sendMessage(ChatColor.GOLD+"[iControlU] "+ChatColor.BLUE+"You now control "+victim.getName()+"'s chats and movements.");
 									}else{
-										sender.sendMessage(ChatColor.GOLD+"[iControlU]"+ChatColor.RED+"You can't control that player!");
+										sender.sendMessage(ChatColor.GOLD+"[iControlU]"+ChatColor.RED+" You can't control that player!");
 									}
 								}else{
-									sender.sendMessage(ChatColor.GOLD+"[iControlU]"+ChatColor.RED+"Player not found!");
+									sender.sendMessage(ChatColor.GOLD+"[iControlU]"+ChatColor.RED+" Player not found!");
 								}
 							}else{
-								sender.sendMessage(ChatColor.GOLD+"[iControlU]"+ChatColor.RED+"You're already controlling someone!");
+								sender.sendMessage(ChatColor.GOLD+"[iControlU]"+ChatColor.RED+" You're already controlling someone!");
 							}
 						}else{
-							sender.sendMessage(ChatColor.GOLD+"[iControlU]"+ChatColor.RED+"You don't have permission");
+							sender.sendMessage(ChatColor.GOLD+"[iControlU]"+ChatColor.RED+" You don't have permission");
 						}
 					}					
 				}
@@ -131,18 +131,18 @@ public class iControlU extends JavaPlugin{
 						api.restorePlayerInventory(s.getName());
 						api.restorePlayerArmor(s.getName());
 						
-						sender.sendMessage(ChatColor.GOLD+"[iControlU]"+ChatColor.RED+"You are no longer controlling someone");
+						sender.sendMessage(ChatColor.GOLD+"[iControlU]"+ChatColor.RED+" You are no longer controlling someone");
 					}else{
-						sender.sendMessage(ChatColor.GOLD+"[iControlU]"+ChatColor.RED+"You aren't controlling anyone!");
+						sender.sendMessage(ChatColor.GOLD+"[iControlU]"+ChatColor.RED+" You aren't controlling anyone!");
 					}
 					}else{
-						sender.sendMessage(ChatColor.GOLD+"[iControlU]"+ChatColor.RED+"You don't have permission!");
+						sender.sendMessage(ChatColor.GOLD+"[iControlU]"+ChatColor.RED+" You don't have permission!");
 					}
 					}
 				}
 				
 			}else{
-				sender.sendMessage(ChatColor.GOLD+"[iControlU]"+ChatColor.RED+"iControlU commands can only be sent from a player!");
+				sender.sendMessage(ChatColor.GOLD+"[iControlU]"+ChatColor.RED+" iControlU commands can only be sent from a player!");
 			}
 			return true;
 		}
