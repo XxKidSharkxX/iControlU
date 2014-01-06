@@ -1,7 +1,6 @@
 package me.firebreath15.icontrolu;
 
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -38,7 +37,6 @@ public class onChat implements Listener{
 		String n = p.getName();
 		if(plugin.getConfig().contains("controlled."+n)){
 			e.setCancelled(true);
-			p.sendMessage(ChatColor.GOLD+"[iControlU] "+ChatColor.RED+"You cannot send commands while being controlled!");
 		}
 	}
 }
