@@ -32,6 +32,10 @@ public class onLogout implements Listener{
 				pl[i].showPlayer(controlfreak);
 			}
 			
+			//the victim logged out, so the controller should get his inventory back.
+			plugin.api.restorePlayerInventory(controlfreak.getName());
+			plugin.api.restorePlayerArmor(controlfreak.getName());
+			
 		}else{
 			if(plugin.getConfig().contains("controllers."+name)){
 				String vname = plugin.getConfig().getString("controllers."+name+".person");
@@ -46,6 +50,10 @@ public class onLogout implements Listener{
 					pl[i].showPlayer(player);
 					pl[i].showPlayer(victim);
 				}
+				
+				//the controller logged out, so he should get his inventory back
+				plugin.api.restorePlayerInventory(player.getName());
+				plugin.api.restorePlayerArmor(player.getName());
 			}
 		}
 	}
