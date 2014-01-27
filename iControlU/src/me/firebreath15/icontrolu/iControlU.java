@@ -61,36 +61,40 @@ public class iControlU extends JavaPlugin{
 						if(sender.hasPermission("icu.control")){
 							String name = sender.getName();
 							if(!(this.getConfig().contains("controllers."+name))){
-								if(this.getServer().getPlayer(args[1]) != null){
 								Player victim = this.getServer().getPlayer(args[1]);
-								if(!(victim.hasPermission("icu.exempt"))){
-									Player s = (Player)sender;
-									victim.hidePlayer(s);
-									s.teleport(victim);
-									s.hidePlayer(victim);
-									Player[] ps = this.getServer().getOnlinePlayers();
-									int pon = ps.length;
-									for(int i=0; i<pon; i++){
-										ps[i].hidePlayer(s);
-									}
-									
-									this.getConfig().set("controlled."+victim.getName(), sender.getName());
-									this.getConfig().set("controllers."+sender.getName()+".person", victim.getName());
-									this.getConfig().set("controllers."+name+".controlling", true);
-									this.saveConfig();
-									
-									api.storePlayerInventory(s.getName());
-									api.storePlayerArmor(s.getName());
-									s.getInventory().setContents(victim.getInventory().getContents());
-									s.getInventory().setArmorContents(victim.getInventory().getArmorContents());
-									@SuppressWarnings("unused")
-									BukkitTask sync = new InvSync(this).runTaskLater(this, 20);
-									
-									s.sendMessage(ChatColor.GOLD+"[iControlU] "+ChatColor.BLUE+"Control Mode activated.");
-									s.sendMessage(ChatColor.GOLD+"[iControlU] "+ChatColor.BLUE+"You begun controlling "+ChatColor.GREEN+victim.getName());
-									s.sendMessage(ChatColor.GOLD+"[iControlU] "+ChatColor.BLUE+"You now control "+victim.getName()+"'s chats and movements.");
+								if(victim != null){
+									if(!this.getConfig().contains("controlled."+victim.getName())){
+										if(!(victim.hasPermission("icu.exempt"))){
+											Player s = (Player)sender;
+											victim.hidePlayer(s);
+											s.teleport(victim);
+											s.hidePlayer(victim);
+											Player[] ps = this.getServer().getOnlinePlayers();
+											int pon = ps.length;
+											for(int i=0; i<pon; i++){
+												ps[i].hidePlayer(s);
+											}
+												
+											this.getConfig().set("controlled."+victim.getName(), sender.getName());
+											this.getConfig().set("controllers."+sender.getName()+".person", victim.getName());
+											this.getConfig().set("controllers."+name+".controlling", true);
+											this.saveConfig();
+												
+											api.storePlayerInventory(s.getName());
+											api.storePlayerArmor(s.getName());
+											s.getInventory().setContents(victim.getInventory().getContents());
+											s.getInventory().setArmorContents(victim.getInventory().getArmorContents());
+											@SuppressWarnings("unused")
+											BukkitTask sync = new InvSync(this).runTaskLater(this, 20);
+												
+											s.sendMessage(ChatColor.GOLD+"[iControlU] "+ChatColor.BLUE+"Control Mode activated.");
+											s.sendMessage(ChatColor.GOLD+"[iControlU] "+ChatColor.BLUE+"You begun controlling "+ChatColor.GREEN+victim.getName());
+											s.sendMessage(ChatColor.GOLD+"[iControlU] "+ChatColor.BLUE+"You now control "+victim.getName()+"'s chats and movements.");
+											}else{
+												sender.sendMessage(ChatColor.GOLD+"[iControlU]"+ChatColor.RED+" You can't control that player!");
+											}
 									}else{
-										sender.sendMessage(ChatColor.GOLD+"[iControlU]"+ChatColor.RED+" You can't control that player!");
+										sender.sendMessage(ChatColor.GOLD+"[iControlU]"+ChatColor.RED+" That player is already being controlled!");
 									}
 								}else{
 									sender.sendMessage(ChatColor.GOLD+"[iControlU]"+ChatColor.RED+" Player not found!");
