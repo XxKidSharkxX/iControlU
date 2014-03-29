@@ -1,5 +1,6 @@
 package me.firebreath15.icontrolu;
 
+import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -19,20 +20,13 @@ public class onMove implements Listener{
 		String name = player.getName();
 		
 		if(plugin.getConfig().contains("controlled."+name)){
-			int x = event.getFrom().getBlockX();
-			int y = event.getFrom().getBlockX();
-			int z = event.getFrom().getBlockX();
-			String wn = event.getFrom().getWorld().getName();
+			Location old = event.getFrom();
+			Location neww = event.getTo();
 			
-			int nx = event.getTo().getBlockX();
-			int ny = event.getTo().getBlockX();
-			int nz = event.getTo().getBlockX();
-			String nwn = event.getTo().getWorld().getName();
-			
-			Delta d = new Delta();
-			if((d.ifChangeWasOne(x, nx) || d.ifChangeWasOne(y, ny) || d.ifChangeWasOne(z, nz)) && (wn == nwn)){
-				//if the player moved a block and theyre in the same world as before
-				event.setCancelled(true);
+			if(old.getWorld().getName().equalsIgnoreCase(neww.getWorld().getName())){
+				if(old.distance(neww)>=1){
+					event.setCancelled(true);
+				}
 			}
 		}
 		

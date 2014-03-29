@@ -48,12 +48,12 @@ public class iControlU extends JavaPlugin{
 			if(sender instanceof Player){
 				if(args.length == 0 || args.length > 2){
 					//show help menu. they got their arguments wrong!
-					sender.sendMessage(ChatColor.YELLOW+"==========[ iControlU Help v1.5.9]==========");
+					sender.sendMessage(ChatColor.YELLOW+"==========[ iControlU Help v1.6.0]==========");
 					sender.sendMessage(ChatColor.BLUE+"/icu control <player>"+ChatColor.GREEN+" Enter Control Mode with <player>.");
 					sender.sendMessage(ChatColor.BLUE+"/icu stop"+ChatColor.GREEN+" Exit Control Mode.");
-					sender.sendMessage(ChatColor.YELLOW+"              ==========              ");
+					sender.sendMessage("");
 					sender.sendMessage(ChatColor.DARK_PURPLE+"Created by FireBreath15");
-					sender.sendMessage(ChatColor.YELLOW+"==========[ iControlU Help v1.5.9]==========");
+					sender.sendMessage(ChatColor.YELLOW+"==========[ iControlU Help v1.6.0]==========");
 				}
 				
 				if(args.length == 2){

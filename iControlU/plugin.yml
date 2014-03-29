@@ -1,5 +1,5 @@
 name: iControlU
-version: 1.5.9.1
+version: 1.6.0
 main: me.firebreath15.icontrolu.iControlU
 commands:
   icu:
