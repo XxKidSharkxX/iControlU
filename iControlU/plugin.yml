@@ -1,10 +1,10 @@
 name: iControlU
-version: 1.6.0
+version: 1.7.0
 main: me.firebreath15.icontrolu.iControlU
 commands:
   icu:
     description: Main command for iControlU
-    usage: /icu
+    usage: /icu <control/stop> [Player]
     permission: icu.use
     permission-message: You don't have permission
 permissions:
@@ -15,4 +15,10 @@ permissions:
   icu.stop:
     default: op
   icu.exempt:
+    default: false
+  icontrolu.control:
+    default: op
+  icontrolu.stop:
+    default: op
+  icontrolu.exempt:
     default: false

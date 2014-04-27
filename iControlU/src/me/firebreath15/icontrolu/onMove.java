@@ -1,6 +1,5 @@
 package me.firebreath15.icontrolu;
 
-import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -15,27 +14,25 @@ public class onMove implements Listener{
 	}
 	
 	@EventHandler
-	public void OnPMove(PlayerMoveEvent event){
-		Player player = event.getPlayer();
-		String name = player.getName();
-		
-		if(plugin.getConfig().contains("controlled."+name)){
-			Location old = event.getFrom();
-			Location neww = event.getTo();
+	public void OnPMove(PlayerMoveEvent e){
+		if(plugin.relations.containsKey(e.getPlayer())){
+			String role = plugin.data.get(e.getPlayer());
+			Player other = plugin.relations.get(e.getPlayer());
 			
-			if(old.getWorld().getName().equalsIgnoreCase(neww.getWorld().getName())){
-				if(old.distance(neww)>=1){
-					event.setCancelled(true);
+			if(role.equalsIgnoreCase("p")){
+				if(e.getTo().getWorld().getName().equalsIgnoreCase(e.getFrom().getWorld().getName())){
+					if(e.getFrom().distance(other.getLocation())>=1){
+						e.setCancelled(true);
+					}
+				}
+				
+			}
+			
+			if(role.equalsIgnoreCase("c")){				
+				if(e.getTo().getWorld().getName().equalsIgnoreCase(e.getFrom().getWorld().getName())){
+					other.teleport(e.getPlayer());
 				}
 			}
 		}
-		
-		if(plugin.getConfig().contains("controllers."+name)){
-				String person = plugin.getConfig().getString("controllers."+name+".person");
-				Player puppet = plugin.getServer().getPlayer(person);
-				
-				puppet.teleport(player.getLocation());
-		}
-		
 	}
 }
