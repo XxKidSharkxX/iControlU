@@ -4,7 +4,7 @@ main: me.firebreath15.icontrolu.iControlU
 commands:
   icu:
     description: Main command for iControlU
-    usage: /icu <control/stop> [Player]
+    usage: /icu
     permission: icu.use
     permission-message: You don't have permission
 permissions:
@@ -15,10 +15,4 @@ permissions:
   icu.stop:
     default: op
   icu.exempt:
-    default: false
-  icontrolu.control:
-    default: op
-  icontrolu.stop:
-    default: op
-  icontrolu.exempt:
     default: false
