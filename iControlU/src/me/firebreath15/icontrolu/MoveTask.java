@@ -18,7 +18,7 @@ public class MoveTask extends BukkitRunnable{
 		c=((CraftPlayer)co).getHandle();
 		v=((CraftPlayer)vi).getHandle();
 	}
-	
+	//
 	public void run(){
 		if(!c.getBukkitEntity().hasMetadata("iCU_H")){
 			this.cancel();

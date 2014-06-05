@@ -22,7 +22,7 @@ public class iControlU extends JavaPlugin {
 	public void onEnable() {
 		this.getServer().getPluginManager().registerEvents(new iListener(this), this);
 	}
-
+	// Made by FireBreath15
 	@SuppressWarnings("deprecation")
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String args[]){
 		
