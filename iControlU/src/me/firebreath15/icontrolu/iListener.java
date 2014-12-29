@@ -28,8 +28,7 @@ public class iListener implements Listener{
 	iListener(iControlU c){
 		plugin=c;
 	}
-	//
-	@SuppressWarnings("deprecation")
+
 	@EventHandler
 	public void onInteract(PlayerInteractEvent e){
 		Player p = e.getPlayer();
@@ -45,7 +44,6 @@ public class iListener implements Listener{
 		}
 	}
 	
-	@SuppressWarnings("deprecation")
 	@EventHandler
 	public void onInteractEntity(PlayerInteractEntityEvent e){
 		Player p = e.getPlayer();
@@ -61,7 +59,7 @@ public class iListener implements Listener{
 		}
 	}
 	
-	@SuppressWarnings("deprecation")
+	
 	@EventHandler
 	public void onPlaceBlock(BlockPlaceEvent e){
 		Player p = e.getPlayer();
@@ -77,7 +75,7 @@ public class iListener implements Listener{
 		}
 	}
 	
-	@SuppressWarnings("deprecation")
+	
 	@EventHandler
 	public void onPlaceBlock(BlockBreakEvent e){
 		Player p = e.getPlayer();
@@ -93,7 +91,7 @@ public class iListener implements Listener{
 		}
 	}
 	
-	@SuppressWarnings("deprecation")
+	
 	@EventHandler
 	public void onPlayerChat(AsyncPlayerChatEvent e){
 		Player p = e.getPlayer();
@@ -131,7 +129,7 @@ public class iListener implements Listener{
 		}
 	}
 	
-	@SuppressWarnings("deprecation")
+	
 	@EventHandler
 	public void onToggleSprint(PlayerToggleSprintEvent e){
 		Player p = e.getPlayer();
@@ -146,7 +144,7 @@ public class iListener implements Listener{
 		}
 	}
 	
-	@SuppressWarnings("deprecation")
+	
 	@EventHandler
 	public void onToggleSneak(PlayerToggleSneakEvent e){
 		Player p = e.getPlayer();
@@ -160,6 +158,7 @@ public class iListener implements Listener{
 			}
 		}
 	}
+	
 	
 	@SuppressWarnings("deprecation")
 	@EventHandler
@@ -197,6 +196,7 @@ public class iListener implements Listener{
 			}
 		}
 	}
+	
 	
 	@SuppressWarnings("deprecation")
 	@EventHandler
