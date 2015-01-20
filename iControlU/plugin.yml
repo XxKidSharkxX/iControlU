@@ -1,6 +1,8 @@
 name: iControlU
-version: 1.7.3
+version: 1.8.0
 main: me.firebreath15.icontrolu.iControlU
+author: FireBreath15
+contributors: NewbieOrange
 commands:
   icu:
     description: Main command for iControlU
