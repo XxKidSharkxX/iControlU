@@ -1,11 +1,11 @@
 package me.firebreath15.icontrolu;
 
-import net.minecraft.server.v1_7_R4.EntityPlayer;
-import net.minecraft.server.v1_7_R4.PacketPlayInArmAnimation;
+import net.minecraft.server.v1_8_R1.EntityPlayer;
+import net.minecraft.server.v1_8_R1.PacketPlayInArmAnimation;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.craftbukkit.v1_7_R4.entity.CraftPlayer;
+import org.bukkit.craftbukkit.v1_8_R1.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -160,7 +160,6 @@ public class iListener implements Listener{
 	}
 	
 	
-	@SuppressWarnings("deprecation")
 	@EventHandler
 	public void onPlayerGetKicked(PlayerKickEvent e){
 		Player p = e.getPlayer();
@@ -174,9 +173,8 @@ public class iListener implements Listener{
 			c.getInventory().setContents(plugin.inventory.get(c.getName()));
 			c.getInventory().setArmorContents(plugin.armor.get(c.getName()));
 			
-			Player[] ps = Bukkit.getServer().getOnlinePlayers();
-			for(int i=0; i<ps.length; i++){
-				ps[i].showPlayer(p);
+			for(Player server : Bukkit.getServer().getOnlinePlayers()){
+				server.showPlayer(p);
 			}
 		}else{
 			if(p.hasMetadata("iCU_H")){
@@ -189,16 +187,14 @@ public class iListener implements Listener{
 				c.getInventory().setContents(plugin.inventory.get(c.getName()));
 				c.getInventory().setArmorContents(plugin.armor.get(c.getName()));
 				
-				Player[] ps = Bukkit.getServer().getOnlinePlayers();
-				for(int i=0; i<ps.length; i++){
-					ps[i].showPlayer(p);
+				for(Player server : Bukkit.getServer().getOnlinePlayers()){
+					server.showPlayer(p);
 				}
 			}
 		}
 	}
 	
 	
-	@SuppressWarnings("deprecation")
 	@EventHandler
 	public void onPlayerLogout(PlayerQuitEvent e){
 		Player p = e.getPlayer();
@@ -212,9 +208,8 @@ public class iListener implements Listener{
 			c.getInventory().setContents(plugin.inventory.get(c.getName()));
 			c.getInventory().setArmorContents(plugin.armor.get(c.getName()));
 			
-			Player[] ps = Bukkit.getServer().getOnlinePlayers();
-			for(int i=0; i<ps.length; i++){
-				ps[i].showPlayer(p);
+			for(Player server : Bukkit.getServer().getOnlinePlayers()){
+				server.showPlayer(p);
 			}
 		}else{
 			if(p.hasMetadata("iCU_H")){
@@ -227,9 +222,8 @@ public class iListener implements Listener{
 				c.getInventory().setContents(plugin.inventory.get(c.getName()));
 				c.getInventory().setArmorContents(plugin.armor.get(c.getName()));
 				
-				Player[] ps = Bukkit.getServer().getOnlinePlayers();
-				for(int i=0; i<ps.length; i++){
-					ps[i].showPlayer(p);
+				for(Player server : Bukkit.getServer().getOnlinePlayers()){
+					server.showPlayer(p);
 				}
 			}
 		}

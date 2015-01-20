@@ -1,11 +1,13 @@
 package me.firebreath15.icontrolu;
 
-import net.minecraft.server.v1_7_R4.EntityPlayer;
-import net.minecraft.server.v1_7_R4.Packet;
-import net.minecraft.server.v1_7_R4.PacketPlayOutPosition;
+import java.util.HashSet;
+
+import net.minecraft.server.v1_8_R1.EntityPlayer;
+import net.minecraft.server.v1_8_R1.Packet;
+import net.minecraft.server.v1_8_R1.PacketPlayOutPosition;
 
 import org.bukkit.Location;
-import org.bukkit.craftbukkit.v1_7_R4.entity.CraftPlayer;
+import org.bukkit.craftbukkit.v1_8_R1.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
@@ -30,12 +32,12 @@ public class MoveTask extends BukkitRunnable{
 		Packet packet;
 		
 	    if(from.getX() == to.getX() && from.getY() == to.getY() && from.getZ() == to.getZ()){
-	    	packet = new PacketPlayOutPosition(to.getX(), to.getY() + 1.62, to.getZ(), to.getYaw(), to.getPitch(), true);
+	    	packet = new PacketPlayOutPosition(to.getX(), to.getY(), to.getZ(), to.getYaw(), to.getPitch(), new HashSet<Object>());
 	    }else{
 	    	if(c.isSneaking()){
-	    		packet = new PacketPlayOutPosition(to.getX(), to.getY() + v.getBukkitEntity().getEyeHeight(true) + 1.62, to.getZ(), to.getYaw(), to.getPitch(), true);
+	    		packet = new PacketPlayOutPosition(to.getX(), to.getY() + v.getBukkitEntity().getEyeHeight(true), to.getZ(), to.getYaw(), to.getPitch(), new HashSet<Object>());
 	        }else{
-	        	packet = new PacketPlayOutPosition(to.getX(), to.getY() + v.getBukkitEntity().getEyeHeight(false) + 1.62, to.getZ(), to.getYaw(), to.getPitch(), true);
+	        	packet = new PacketPlayOutPosition(to.getX(), to.getY() + v.getBukkitEntity().getEyeHeight(false), to.getZ(), to.getYaw(), to.getPitch(), new HashSet<Object>());
 	        }
 	    }
 	    

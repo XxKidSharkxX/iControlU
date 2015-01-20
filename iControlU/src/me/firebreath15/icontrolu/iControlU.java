@@ -22,8 +22,9 @@ public class iControlU extends JavaPlugin {
 	public void onEnable() {
 		this.getServer().getPluginManager().registerEvents(new iListener(this), this);
 	}
+	
 	// Made by FireBreath15
-	@SuppressWarnings("deprecation")
+	
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String args[]){
 		
 		if(cmd.getName().equalsIgnoreCase("icu")){
@@ -50,10 +51,9 @@ public class iControlU extends JavaPlugin {
 												victim.hidePlayer(p);
 												p.teleport(victim);
 												p.hidePlayer(victim);
-												Player[] ps = this.getServer().getOnlinePlayers();
-												int pon = ps.length;
-												for(int i=0; i<pon; i++){
-													ps[i].hidePlayer(p);
+												
+												for(Player server : Bukkit.getServer().getOnlinePlayers()){
+													server.hidePlayer(p);
 												}
 														
 												victim.setMetadata("iCU_P", new FixedMetadataValue(this,p.getName()));
@@ -102,9 +102,8 @@ public class iControlU extends JavaPlugin {
 								victim.setAllowFlight(false);
 								victim.setFlying(false);
 															
-								Player[] ps = this.getServer().getOnlinePlayers();
-								for(int i=0; i<ps.length; i++){
-									ps[i].showPlayer(p);
+								for(Player server : Bukkit.getServer().getOnlinePlayers()){
+									server.showPlayer(p);
 								}
 								
 								p.removeMetadata("iCU_H", this);
