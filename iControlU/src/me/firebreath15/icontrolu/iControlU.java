@@ -18,67 +18,72 @@ public class iControlU extends JavaPlugin {
 
 	public HashMap<String, ItemStack[]> inventory = new HashMap<String,ItemStack[]>();
 	public HashMap<String, ItemStack[]> armor = new HashMap<String,ItemStack[]>();
-	
+
 	public void onEnable() {
 		this.getServer().getPluginManager().registerEvents(new iListener(this), this);
 	}
-	
+
 	// Made by FireBreath15
-	
+
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String args[]){
-		
+
 		if(cmd.getName().equalsIgnoreCase("icu")){
 			if(sender instanceof Player){
 				Player p = (Player)sender;
 				if(args.length == 0 || args.length > 2){
 					//show help menu. they got their arguments wrong!
-					p.sendMessage(ChatColor.YELLOW+"==========[ iControlU Help v1.7.0]==========");
+					String version = this.getDescription().getVersion().toString(); 
+					p.sendMessage(ChatColor.YELLOW+"==========[ iControlU Help v"+version+"]==========");
 					p.sendMessage(ChatColor.BLUE+"/icu control <player>"+ChatColor.GREEN+" Enter Control Mode with <player>.");
 					p.sendMessage(ChatColor.BLUE+"/icu stop"+ChatColor.GREEN+" Exit Control Mode.");
 					p.sendMessage("");
 					p.sendMessage(ChatColor.DARK_PURPLE+"Created by FireBreath15");
-					p.sendMessage(ChatColor.YELLOW+"==========[ iControlU Help v1.7.0]==========");
+					p.sendMessage(ChatColor.YELLOW+"==========[ iControlU Help v"+version+"]==========");
 				}
-				
+
 				if(args.length == 2){
 					if(args[0].equalsIgnoreCase("control")){
 						if(p.hasPermission("icu.control")){
 							Player victim = this.getServer().getPlayer(args[1]);
 							if(!p.hasMetadata("iCU_H")){
-									if(victim != null){
-										if(!victim.hasMetadata("iCU_P")){
+								if(victim != null){
+									if(!victim.hasMetadata("iCU_P")){
+										if(victim != p){
 											if(!(victim.hasPermission("icu.exempt"))){
 												victim.hidePlayer(p);
 												p.teleport(victim);
 												p.hidePlayer(victim);
-												
+
 												for(Player server : Bukkit.getServer().getOnlinePlayers()){
 													server.hidePlayer(p);
 												}
-														
+
 												victim.setMetadata("iCU_P", new FixedMetadataValue(this,p.getName()));
 												p.setMetadata("iCU_H", new FixedMetadataValue(this,victim.getName()));
 												victim.setAllowFlight(true);
 												victim.setFlying(true);
-														
+
 												this.inventory.put(p.getName(), p.getInventory().getContents());
 												this.armor.put(p.getName(), p.getInventory().getArmorContents());
 												p.getInventory().setContents(victim.getInventory().getContents());
 												p.getInventory().setArmorContents(victim.getInventory().getArmorContents());
-												
+
 												@SuppressWarnings("unused")
 												BukkitTask move = new MoveTask(p,victim).runTaskTimer(this, 1L, 1L);
-													
+
 												p.sendMessage(ChatColor.RED+"["+ChatColor.GOLD+"iControlU"+ChatColor.RED+"] "+ChatColor.YELLOW+"Control Mode activated with "+ChatColor.GREEN+victim.getName());
 											}else{
 												p.sendMessage(ChatColor.RED+"["+ChatColor.GOLD+"iControlU"+ChatColor.RED+"]"+ChatColor.RED+" You can't control that player!");
 											}
 										}else{
-											p.sendMessage(ChatColor.RED+"["+ChatColor.GOLD+"iControlU"+ChatColor.RED+"]"+ChatColor.RED+" That player is already being controlled!");
+											p.sendMessage(ChatColor.RED+"["+ChatColor.GOLD+"iControlU"+ChatColor.RED+"]"+ChatColor.RED+" You can't control yourself!");
 										}
 									}else{
-										p.sendMessage(ChatColor.RED+"["+ChatColor.GOLD+"iControlU"+ChatColor.RED+"]"+ChatColor.RED+" Player not found!");
+										p.sendMessage(ChatColor.RED+"["+ChatColor.GOLD+"iControlU"+ChatColor.RED+"]"+ChatColor.RED+" That player is already being controlled!");
 									}
+								}else{
+									p.sendMessage(ChatColor.RED+"["+ChatColor.GOLD+"iControlU"+ChatColor.RED+"]"+ChatColor.RED+" Player not found!");
+								}
 							}else{
 								p.sendMessage(ChatColor.RED+"["+ChatColor.GOLD+"iControlU"+ChatColor.RED+"]"+ChatColor.RED+" You are in Control Mode with someone else!");
 							}
@@ -89,7 +94,7 @@ public class iControlU extends JavaPlugin {
 						p.sendMessage(ChatColor.RED+"["+ChatColor.GOLD+"iControlU"+ChatColor.RED+"]"+ChatColor.RED+" Wrong command or usage!");
 					}
 				}
-				
+
 				if(args.length == 1){
 					if(args[0].equalsIgnoreCase("stop")){
 						if(p.hasPermission("icu.stop")){
@@ -101,16 +106,16 @@ public class iControlU extends JavaPlugin {
 								victim.removeMetadata("iCU_P", this);
 								victim.setAllowFlight(false);
 								victim.setFlying(false);
-															
+
 								for(Player server : Bukkit.getServer().getOnlinePlayers()){
 									server.showPlayer(p);
 								}
-								
+
 								p.removeMetadata("iCU_H", this);
-								
+
 								p.getInventory().setContents(inventory.get(p.getName()));
 								p.getInventory().setArmorContents(armor.get(p.getName()));
-								
+
 								p.sendMessage(ChatColor.RED+"["+ChatColor.GOLD+"iControlU"+ChatColor.RED+"]"+ChatColor.YELLOW+" Control Mode deactivated");
 							}else{
 								p.sendMessage(ChatColor.RED+"["+ChatColor.GOLD+"iControlU"+ChatColor.RED+"]"+ChatColor.RED+" You are not in Control Mode!");
@@ -127,7 +132,7 @@ public class iControlU extends JavaPlugin {
 			}
 			return true;
 		}
-		
+
 		return false;
 	}
 }

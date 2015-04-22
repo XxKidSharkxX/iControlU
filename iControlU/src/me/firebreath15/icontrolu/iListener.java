@@ -1,11 +1,11 @@
 package me.firebreath15.icontrolu;
 
-import net.minecraft.server.v1_8_R1.EntityPlayer;
-import net.minecraft.server.v1_8_R1.PacketPlayInArmAnimation;
+import net.minecraft.server.v1_8_R2.EntityPlayer;
+import net.minecraft.server.v1_8_R2.PacketPlayInArmAnimation;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.craftbukkit.v1_8_R1.entity.CraftPlayer;
+import org.bukkit.craftbukkit.v1_8_R2.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -23,7 +23,7 @@ import org.bukkit.event.player.PlayerToggleSprintEvent;
 import org.bukkit.metadata.FixedMetadataValue;
 
 public class iListener implements Listener{
-	
+
 	iControlU plugin;
 	iListener(iControlU c){
 		plugin=c;
@@ -43,7 +43,7 @@ public class iListener implements Listener{
 			}
 		}
 	}
-	
+
 	@EventHandler
 	public void onInteractEntity(PlayerInteractEntityEvent e){
 		Player p = e.getPlayer();
@@ -58,8 +58,8 @@ public class iListener implements Listener{
 			}
 		}
 	}
-	
-	
+
+
 	@EventHandler
 	public void onPlaceBlock(BlockPlaceEvent e){
 		Player p = e.getPlayer();
@@ -74,8 +74,8 @@ public class iListener implements Listener{
 			}
 		}
 	}
-	
-	
+
+
 	@EventHandler
 	public void onPlaceBlock(BlockBreakEvent e){
 		Player p = e.getPlayer();
@@ -90,8 +90,8 @@ public class iListener implements Listener{
 			}
 		}
 	}
-	
-	
+
+
 	@EventHandler
 	public void onPlayerChat(AsyncPlayerChatEvent e){
 		Player p = e.getPlayer();
@@ -110,7 +110,7 @@ public class iListener implements Listener{
 			}
 		}
 	}
-	
+
 	@EventHandler
 	public void stopDamage(EntityDamageEvent e){
 		if(e.getEntity() instanceof Player){
@@ -120,7 +120,7 @@ public class iListener implements Listener{
 			}
 		}
 	}
-	
+
 	@EventHandler
 	public void onPlayerRunCommand(PlayerCommandPreprocessEvent e){
 		Player p = e.getPlayer();
@@ -128,8 +128,8 @@ public class iListener implements Listener{
 			e.setCancelled(true);
 		}
 	}
-	
-	
+
+
 	@EventHandler
 	public void onToggleSprint(PlayerToggleSprintEvent e){
 		Player p = e.getPlayer();
@@ -143,8 +143,8 @@ public class iListener implements Listener{
 			}
 		}
 	}
-	
-	
+
+
 	@EventHandler
 	public void onToggleSneak(PlayerToggleSneakEvent e){
 		Player p = e.getPlayer();
@@ -158,21 +158,21 @@ public class iListener implements Listener{
 			}
 		}
 	}
-	
-	
+
+
 	@EventHandler
 	public void onPlayerGetKicked(PlayerKickEvent e){
 		Player p = e.getPlayer();
 		if(p.hasMetadata("iCU_P")){
 			Player c = Bukkit.getPlayer(p.getMetadata("iCU_P").get(0).asString());
 			c.sendMessage(ChatColor.RED+"["+ChatColor.GOLD+"iControlU"+ChatColor.RED+"] "+p.getName()+" was disconnected");
-				
+
 			p.removeMetadata("iCU_P", plugin);
 			c.removeMetadata("iCU_H", plugin);
-				
+
 			c.getInventory().setContents(plugin.inventory.get(c.getName()));
 			c.getInventory().setArmorContents(plugin.armor.get(c.getName()));
-			
+
 			for(Player server : Bukkit.getServer().getOnlinePlayers()){
 				server.showPlayer(p);
 			}
@@ -180,34 +180,34 @@ public class iListener implements Listener{
 			if(p.hasMetadata("iCU_H")){
 				Player c = Bukkit.getPlayer(p.getMetadata("iCU_H").get(0).asString());
 				c.sendMessage(ChatColor.RED+"["+ChatColor.GOLD+"iControlU"+ChatColor.RED+"] "+p.getName()+" was disconnected");
-				
+
 				c.removeMetadata("iCU_P", plugin);
 				c.removeMetadata("iCU_H", plugin);
-					
+
 				c.getInventory().setContents(plugin.inventory.get(c.getName()));
 				c.getInventory().setArmorContents(plugin.armor.get(c.getName()));
-				
+
 				for(Player server : Bukkit.getServer().getOnlinePlayers()){
 					server.showPlayer(p);
 				}
 			}
 		}
 	}
-	
-	
+
+
 	@EventHandler
 	public void onPlayerLogout(PlayerQuitEvent e){
 		Player p = e.getPlayer();
 		if(p.hasMetadata("iCU_P")){
 			Player c = Bukkit.getPlayer(p.getMetadata("iCU_P").get(0).asString());
 			c.sendMessage(ChatColor.RED+"["+ChatColor.GOLD+"iControlU"+ChatColor.RED+"] "+p.getName()+" was disconnected");
-				
+
 			p.removeMetadata("iCU_P", plugin);
 			c.removeMetadata("iCU_H", plugin);
-				
+
 			c.getInventory().setContents(plugin.inventory.get(c.getName()));
 			c.getInventory().setArmorContents(plugin.armor.get(c.getName()));
-			
+
 			for(Player server : Bukkit.getServer().getOnlinePlayers()){
 				server.showPlayer(p);
 			}
@@ -215,13 +215,13 @@ public class iListener implements Listener{
 			if(p.hasMetadata("iCU_H")){
 				Player c = Bukkit.getPlayer(p.getMetadata("iCU_H").get(0).asString());
 				c.sendMessage(ChatColor.RED+"["+ChatColor.GOLD+"iControlU"+ChatColor.RED+"] "+p.getName()+" was disconnected");
-				
+
 				c.removeMetadata("iCU_P", plugin);
 				c.removeMetadata("iCU_H", plugin);
-					
+
 				c.getInventory().setContents(plugin.inventory.get(c.getName()));
 				c.getInventory().setArmorContents(plugin.armor.get(c.getName()));
-				
+
 				for(Player server : Bukkit.getServer().getOnlinePlayers()){
 					server.showPlayer(p);
 				}
