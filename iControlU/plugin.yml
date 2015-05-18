@@ -1,8 +1,11 @@
+########################
+# iControlU Plugin.yml #
+########################
 name: iControlU
-version: 1.8.1
+version: 1.9.0
 main: me.firebreath15.icontrolu.iControlU
 author: FireBreath15
-contributors: NewbieOrange, WolfLeader116
+depend: [ProtocolLib, LibsDisguises]
 commands:
   icu:
     description: Main command for iControlU

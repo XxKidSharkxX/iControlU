@@ -1,25 +1,19 @@
 package me.firebreath15.icontrolu;
 
-import net.minecraft.server.v1_8_R2.EntityPlayer;
-import net.minecraft.server.v1_8_R2.PacketPlayInArmAnimation;
+import me.libraryaddict.disguise.DisguiseAPI;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.craftbukkit.v1_8_R2.entity.CraftPlayer;
+import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.block.BlockBreakEvent;
-import org.bukkit.event.block.BlockPlaceEvent;
-import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerKickEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
-import org.bukkit.event.player.PlayerToggleSneakEvent;
-import org.bukkit.event.player.PlayerToggleSprintEvent;
 import org.bukkit.metadata.FixedMetadataValue;
 
 public class iListener implements Listener{
@@ -34,13 +28,6 @@ public class iListener implements Listener{
 		Player p = e.getPlayer();
 		if(p.hasMetadata("iCU_P")){
 			e.setCancelled(true);
-		}else{
-			if(p.hasMetadata("iCU.H")){
-				//attempt to send everyone an arm-swing
-				Player v = Bukkit.getPlayer(p.getMetadata("iCU_H").get(0).asString());
-				EntityPlayer ent = ((CraftPlayer)v).getHandle();
-				ent.playerConnection.sendPacket(new PacketPlayInArmAnimation());
-			}
 		}
 	}
 
@@ -49,49 +36,9 @@ public class iListener implements Listener{
 		Player p = e.getPlayer();
 		if(p.hasMetadata("iCU_P")){
 			e.setCancelled(true);
-		}else{
-			if(p.hasMetadata("iCU.H")){
-				//attempt to send everyone an arm-swing
-				Player v = Bukkit.getPlayer(p.getMetadata("iCU_H").get(0).asString());
-				EntityPlayer ent = ((CraftPlayer)v).getHandle();
-				ent.playerConnection.sendPacket(new PacketPlayInArmAnimation());
-			}
 		}
 	}
-
-
-	@EventHandler
-	public void onPlaceBlock(BlockPlaceEvent e){
-		Player p = e.getPlayer();
-		if(p.hasMetadata("iCU_P")){
-			e.setCancelled(true);
-		}else{
-			if(p.hasMetadata("iCU.H")){
-				//attempt to send everyone an arm-swing
-				Player v = Bukkit.getPlayer(p.getMetadata("iCU_H").get(0).asString());
-				EntityPlayer ent = ((CraftPlayer)v).getHandle();
-				ent.playerConnection.sendPacket(new PacketPlayInArmAnimation());
-			}
-		}
-	}
-
-
-	@EventHandler
-	public void onPlaceBlock(BlockBreakEvent e){
-		Player p = e.getPlayer();
-		if(p.hasMetadata("iCU_P")){
-			e.setCancelled(true);
-		}else{
-			if(p.hasMetadata("iCU.H")){
-				//attempt to send everyone an arm-swing
-				Player v = Bukkit.getPlayer(p.getMetadata("iCU_H").get(0).asString());
-				EntityPlayer ent = ((CraftPlayer)v).getHandle();
-				ent.playerConnection.sendPacket(new PacketPlayInArmAnimation());
-			}
-		}
-	}
-
-
+	
 	@EventHandler
 	public void onPlayerChat(AsyncPlayerChatEvent e){
 		Player p = e.getPlayer();
@@ -112,16 +59,6 @@ public class iListener implements Listener{
 	}
 
 	@EventHandler
-	public void stopDamage(EntityDamageEvent e){
-		if(e.getEntity() instanceof Player){
-			Player p = (Player)e.getEntity();
-			if(p.hasMetadata("iCU_P") || p.hasMetadata("iCU_H")){
-				e.setCancelled(true);
-			}
-		}
-	}
-
-	@EventHandler
 	public void onPlayerRunCommand(PlayerCommandPreprocessEvent e){
 		Player p = e.getPlayer();
 		if(p.hasMetadata("iCU_P")){
@@ -129,43 +66,12 @@ public class iListener implements Listener{
 		}
 	}
 
-
-	@EventHandler
-	public void onToggleSprint(PlayerToggleSprintEvent e){
-		Player p = e.getPlayer();
-		if(p.hasMetadata("iCU_H")){
-			Player v = Bukkit.getPlayer(p.getMetadata("iCU_H").get(0).asString());
-			EntityPlayer pv = ((CraftPlayer)v).getHandle();
-			pv.setSprinting(e.isSprinting());
-		}else{
-			if(p.hasMetadata("iCU_P")){
-				e.setCancelled(true);
-			}
-		}
-	}
-
-
-	@EventHandler
-	public void onToggleSneak(PlayerToggleSneakEvent e){
-		Player p = e.getPlayer();
-		if(p.hasMetadata("iCU_H")){
-			Player v = Bukkit.getPlayer(p.getMetadata("iCU_H").get(0).asString());
-			EntityPlayer pv = ((CraftPlayer)v).getHandle();
-			pv.setSneaking(e.isSneaking());
-		}else{
-			if(p.hasMetadata("iCU_P")){
-				e.setCancelled(true);
-			}
-		}
-	}
-
-
 	@EventHandler
 	public void onPlayerGetKicked(PlayerKickEvent e){
 		Player p = e.getPlayer();
 		if(p.hasMetadata("iCU_P")){
 			Player c = Bukkit.getPlayer(p.getMetadata("iCU_P").get(0).asString());
-			c.sendMessage(ChatColor.RED+"["+ChatColor.GOLD+"iControlU"+ChatColor.RED+"] "+p.getName()+" was disconnected");
+			c.sendMessage(ChatColor.RED+"["+ChatColor.GOLD+"iControlU"+ChatColor.RED+"] "+p.getName()+" disconnected");
 
 			p.removeMetadata("iCU_P", plugin);
 			c.removeMetadata("iCU_H", plugin);
@@ -173,23 +79,21 @@ public class iListener implements Listener{
 			c.getInventory().setContents(plugin.inventory.get(c.getName()));
 			c.getInventory().setArmorContents(plugin.armor.get(c.getName()));
 
-			for(Player server : Bukkit.getServer().getOnlinePlayers()){
-				server.showPlayer(p);
-			}
+			DisguiseAPI.undisguiseToAll(c);
+			p.setGameMode(GameMode.SURVIVAL);
 		}else{
 			if(p.hasMetadata("iCU_H")){
-				Player c = Bukkit.getPlayer(p.getMetadata("iCU_H").get(0).asString());
-				c.sendMessage(ChatColor.RED+"["+ChatColor.GOLD+"iControlU"+ChatColor.RED+"] "+p.getName()+" was disconnected");
+				Player v = Bukkit.getPlayer(p.getMetadata("iCU_H").get(0).asString());
+				v.sendMessage(ChatColor.RED+"["+ChatColor.GOLD+"iControlU"+ChatColor.RED+"] "+p.getName()+" disconnected");
 
-				c.removeMetadata("iCU_P", plugin);
-				c.removeMetadata("iCU_H", plugin);
+				v.removeMetadata("iCU_P", plugin);
+				p.removeMetadata("iCU_H", plugin);
 
-				c.getInventory().setContents(plugin.inventory.get(c.getName()));
-				c.getInventory().setArmorContents(plugin.armor.get(c.getName()));
+				p.getInventory().setContents(plugin.inventory.get(p.getName()));
+				p.getInventory().setArmorContents(plugin.armor.get(p.getName()));
 
-				for(Player server : Bukkit.getServer().getOnlinePlayers()){
-					server.showPlayer(p);
-				}
+				DisguiseAPI.undisguiseToAll(p);
+				v.setGameMode(GameMode.SURVIVAL);
 			}
 		}
 	}
@@ -200,7 +104,7 @@ public class iListener implements Listener{
 		Player p = e.getPlayer();
 		if(p.hasMetadata("iCU_P")){
 			Player c = Bukkit.getPlayer(p.getMetadata("iCU_P").get(0).asString());
-			c.sendMessage(ChatColor.RED+"["+ChatColor.GOLD+"iControlU"+ChatColor.RED+"] "+p.getName()+" was disconnected");
+			c.sendMessage(ChatColor.RED+"["+ChatColor.GOLD+"iControlU"+ChatColor.RED+"] "+p.getName()+" disconnected");
 
 			p.removeMetadata("iCU_P", plugin);
 			c.removeMetadata("iCU_H", plugin);
@@ -208,23 +112,21 @@ public class iListener implements Listener{
 			c.getInventory().setContents(plugin.inventory.get(c.getName()));
 			c.getInventory().setArmorContents(plugin.armor.get(c.getName()));
 
-			for(Player server : Bukkit.getServer().getOnlinePlayers()){
-				server.showPlayer(p);
-			}
+			DisguiseAPI.undisguiseToAll(c);
+			p.setGameMode(GameMode.SURVIVAL);
 		}else{
 			if(p.hasMetadata("iCU_H")){
-				Player c = Bukkit.getPlayer(p.getMetadata("iCU_H").get(0).asString());
-				c.sendMessage(ChatColor.RED+"["+ChatColor.GOLD+"iControlU"+ChatColor.RED+"] "+p.getName()+" was disconnected");
+				Player v = Bukkit.getPlayer(p.getMetadata("iCU_H").get(0).asString());
+				v.sendMessage(ChatColor.RED+"["+ChatColor.GOLD+"iControlU"+ChatColor.RED+"] "+p.getName()+" disconnected");
 
-				c.removeMetadata("iCU_P", plugin);
-				c.removeMetadata("iCU_H", plugin);
+				v.removeMetadata("iCU_P", plugin);
+				p.removeMetadata("iCU_H", plugin);
 
-				c.getInventory().setContents(plugin.inventory.get(c.getName()));
-				c.getInventory().setArmorContents(plugin.armor.get(c.getName()));
+				p.getInventory().setContents(plugin.inventory.get(p.getName()));
+				p.getInventory().setArmorContents(plugin.armor.get(p.getName()));
 
-				for(Player server : Bukkit.getServer().getOnlinePlayers()){
-					server.showPlayer(p);
-				}
+				DisguiseAPI.undisguiseToAll(p);
+				v.setGameMode(GameMode.SURVIVAL);
 			}
 		}
 	}
