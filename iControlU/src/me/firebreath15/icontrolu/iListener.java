@@ -62,7 +62,23 @@ public class iListener implements Listener{
 	public void onPlayerRunCommand(PlayerCommandPreprocessEvent e){
 		Player p = e.getPlayer();
 		if(p.hasMetadata("iCU_P")){
-			e.setCancelled(true);
+			if(!p.hasMetadata("iCU_CMD")){
+				e.setCancelled(true);
+			}else{
+				//Run command as normal and remove command-sending permissions
+				p.removeMetadata("iCU_CMD", plugin);
+			}
+		}else{
+			if(p.hasMetadata("iCU_H")){
+				if(!p.hasMetadata("iCU_CMD")){
+					e.setCancelled(true);
+					Player v = Bukkit.getPlayer(p.getMetadata("iCU_H").get(0).asString());
+					Bukkit.getServer().getPluginManager().registerEvents(new CommandGUI(e.getMessage(), p, v, plugin), plugin);
+				}else{
+					//Run command as normal and remove command-sending permissions
+					p.removeMetadata("iCU_CMD", plugin);
+				}
+			}
 		}
 	}
 
@@ -75,12 +91,19 @@ public class iListener implements Listener{
 
 			p.removeMetadata("iCU_P", plugin);
 			c.removeMetadata("iCU_H", plugin);
-
+			
+			//Give the victim their inventory back
+			p.getInventory().setContents(c.getInventory().getContents());
+			p.getInventory().setArmorContents(c.getInventory().getArmorContents());
+			
 			c.getInventory().setContents(plugin.inventory.get(c.getName()));
 			c.getInventory().setArmorContents(plugin.armor.get(c.getName()));
+			plugin.inventory.remove(c.getName());
+			plugin.armor.remove(c.getName());
 
 			DisguiseAPI.undisguiseToAll(c);
 			p.setGameMode(GameMode.SURVIVAL);
+			plugin.unsetVictimCamera(p);
 		}else{
 			if(p.hasMetadata("iCU_H")){
 				Player v = Bukkit.getPlayer(p.getMetadata("iCU_H").get(0).asString());
@@ -88,12 +111,19 @@ public class iListener implements Listener{
 
 				v.removeMetadata("iCU_P", plugin);
 				p.removeMetadata("iCU_H", plugin);
-
+				
+				//Give the victim their inventory back
+				v.getInventory().setContents(p.getInventory().getContents());
+				v.getInventory().setArmorContents(p.getInventory().getArmorContents());
+				
 				p.getInventory().setContents(plugin.inventory.get(p.getName()));
 				p.getInventory().setArmorContents(plugin.armor.get(p.getName()));
+				plugin.inventory.remove(p.getName());
+				plugin.armor.remove(p.getName());
 
 				DisguiseAPI.undisguiseToAll(p);
 				v.setGameMode(GameMode.SURVIVAL);
+				plugin.unsetVictimCamera(v);
 			}
 		}
 	}
@@ -108,12 +138,19 @@ public class iListener implements Listener{
 
 			p.removeMetadata("iCU_P", plugin);
 			c.removeMetadata("iCU_H", plugin);
-
+			
+			//Give the victim their inventory back
+			p.getInventory().setContents(c.getInventory().getContents());
+			p.getInventory().setArmorContents(c.getInventory().getArmorContents());
+			
 			c.getInventory().setContents(plugin.inventory.get(c.getName()));
 			c.getInventory().setArmorContents(plugin.armor.get(c.getName()));
+			plugin.inventory.remove(c.getName());
+			plugin.armor.remove(c.getName());
 
 			DisguiseAPI.undisguiseToAll(c);
 			p.setGameMode(GameMode.SURVIVAL);
+			plugin.unsetVictimCamera(p);
 		}else{
 			if(p.hasMetadata("iCU_H")){
 				Player v = Bukkit.getPlayer(p.getMetadata("iCU_H").get(0).asString());
@@ -121,12 +158,19 @@ public class iListener implements Listener{
 
 				v.removeMetadata("iCU_P", plugin);
 				p.removeMetadata("iCU_H", plugin);
-
+				
+				//Give the victim their inventory back
+				v.getInventory().setContents(p.getInventory().getContents());
+				v.getInventory().setArmorContents(p.getInventory().getArmorContents());
+				
 				p.getInventory().setContents(plugin.inventory.get(p.getName()));
 				p.getInventory().setArmorContents(plugin.armor.get(p.getName()));
+				plugin.inventory.remove(p.getName());
+				plugin.armor.remove(p.getName());
 
 				DisguiseAPI.undisguiseToAll(p);
 				v.setGameMode(GameMode.SURVIVAL);
+				plugin.unsetVictimCamera(v);
 			}
 		}
 	}

@@ -18,7 +18,7 @@ public class CheckVictim extends BukkitRunnable{
 			if(v.hasMetadata("iCU_P")){
 				if(c.hasMetadata("iCU_H")){
 					if(v.getWorld().getName().equalsIgnoreCase(c.getWorld().getName())){
-						if(v.getLocation().distance(c.getLocation()) > 25){
+						if(v.getLocation().distance(c.getLocation()) > 15){
 							v.teleport(c);
 							TitleAPI.sendTitle(v, 20, 20, 60, "§4TOO FAR AWAY", "");
 						}
