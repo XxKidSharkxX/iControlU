@@ -2,7 +2,7 @@
 # iControlU Plugin.yml #
 ########################
 name: iControlU
-version: 1.9.3
+version: 1.9.4
 main: me.firebreath15.icontrolu.iControlU
 author: FireBreath15
 depend: [ProtocolLib, LibsDisguises]

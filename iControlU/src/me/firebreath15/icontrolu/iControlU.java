@@ -70,8 +70,8 @@ public class iControlU extends JavaPlugin {
 												new CheckVictim(victim, p).runTaskTimer(this, 100, 100);
 												
 												this.setVictimCamera(victim, p);
-												p.sendMessage("§c[§6iControlU§c] §e"+sender.getName()+" §aactivated your Control Mode with §e"+victim.getName());
-												victim.sendMessage("§c[§6iControlU§c] §e"+p.getName()+" §aactivated Control Mode with §eYou");
+												p.sendMessage("Â§c[Â§6iControlUÂ§c] Â§e"+sender.getName()+" Â§aactivated your Control Mode with Â§e"+victim.getName());
+												victim.sendMessage("Â§c[Â§6iControlUÂ§c] Â§e"+p.getName()+" Â§aactivated Control Mode with Â§eYou");
 											}else{
 												sender.sendMessage(ChatColor.RED+"["+ChatColor.GOLD+"iControlU"+ChatColor.RED+"]"+ChatColor.RED+victim.getName()+" cannot be controlled!");
 											}
@@ -82,13 +82,13 @@ public class iControlU extends JavaPlugin {
 										sender.sendMessage(ChatColor.RED+"["+ChatColor.GOLD+"iControlU"+ChatColor.RED+"]"+ChatColor.RED+victim.getName()+" is already being controlled!");
 									}
 								}else{
-									sender.sendMessage("§c[§6iControlU§c] Player "+args[2]+" not found");
+									sender.sendMessage("Â§c[Â§6iControlUÂ§c] Player "+args[2]+" not found");
 								}
 							}else{
 								sender.sendMessage(ChatColor.RED+"["+ChatColor.GOLD+"iControlU"+ChatColor.RED+"]"+ChatColor.RED+" That player is controlling someone else!");
 							}
 						}else{
-							sender.sendMessage("§c[§6iControlU§c] Player "+args[1]+" not found");
+							sender.sendMessage("Â§c[Â§6iControlUÂ§c] Player "+args[1]+" not found");
 						}
 					}else{
 						sender.sendMessage(ChatColor.RED+"["+ChatColor.GOLD+"iControlU"+ChatColor.RED+"]"+ChatColor.RED+" You don't have permission");
@@ -127,8 +127,8 @@ public class iControlU extends JavaPlugin {
 												new CheckVictim(victim, p).runTaskTimer(this, 100, 100);
 												
 												this.setVictimCamera(victim, p);
-												p.sendMessage("§c[§6iControlU§c] §eYou §aactivated Control Mode with §e"+victim.getName());
-												victim.sendMessage("§c[§6iControlU§c] §e"+p.getName()+" §aactivated Control Mode with §eYou");
+												p.sendMessage("Â§c[Â§6iControlUÂ§c] Â§eYou Â§aactivated Control Mode with Â§e"+victim.getName());
+												victim.sendMessage("Â§c[Â§6iControlUÂ§c] Â§e"+p.getName()+" Â§aactivated Control Mode with Â§eYou");
 											}else{
 												p.sendMessage(ChatColor.RED+"["+ChatColor.GOLD+"iControlU"+ChatColor.RED+"]"+ChatColor.RED+" You can't control that player!");
 											}
@@ -145,7 +145,7 @@ public class iControlU extends JavaPlugin {
 								p.sendMessage(ChatColor.RED+"["+ChatColor.GOLD+"iControlU"+ChatColor.RED+"]"+ChatColor.RED+" You are controlling someone else!");
 							}
 						}else{
-							sender.sendMessage("§c[§6iControlU§c] You must be a player to run this command!");
+							sender.sendMessage("Â§c[Â§6iControlUÂ§c] You must be a player to run this command!");
 						}
 					}else{
 						sender.sendMessage(ChatColor.RED+"["+ChatColor.GOLD+"iControlU"+ChatColor.RED+"]"+ChatColor.RED+" You don't have permission");
@@ -176,14 +176,14 @@ public class iControlU extends JavaPlugin {
 									armor.remove(otherp.getName());
 									
 									this.unsetVictimCamera(victim);
-									otherp.sendMessage("§c[§6iControlU§c] §eYou §cdeactivated Control Mode with §e"+victim.getName());
-									victim.sendMessage("§c[§6iControlU§c] §e"+otherp.getName()+" §cdeactivated Control Mode with §eYou");
-									sender.sendMessage("§c[§6iControlU§c] §e"+otherp.getName()+" §6is no longer controlling §e"+victim.getName());
+									otherp.sendMessage("Â§c[Â§6iControlUÂ§c] Â§eYou Â§cdeactivated Control Mode with Â§e"+victim.getName());
+									victim.sendMessage("Â§c[Â§6iControlUÂ§c] Â§e"+otherp.getName()+" Â§cdeactivated Control Mode with Â§eYou");
+									sender.sendMessage("Â§c[Â§6iControlUÂ§c] Â§e"+otherp.getName()+" Â§6is no longer controlling Â§e"+victim.getName());
 								}else{
-									sender.sendMessage("§c[§6iControlU§c] That player is not controlling anyone!");
+									sender.sendMessage("Â§c[Â§6iControlUÂ§c] That player is not controlling anyone!");
 								}
 							}else{
-								sender.sendMessage("§c[§6iControlU§c] Player not found!");
+								sender.sendMessage("Â§c[Â§6iControlUÂ§c] Player not found!");
 							}
 						}else{
 							sender.sendMessage(ChatColor.RED+"["+ChatColor.GOLD+"iControlU"+ChatColor.RED+"]"+ChatColor.RED+" You don't have permission!");
@@ -219,8 +219,8 @@ public class iControlU extends JavaPlugin {
 								armor.remove(p.getName());
 								
 								this.unsetVictimCamera(victim);
-								p.sendMessage("§c[§6iControlU§c] §eYou §cdeactivated Control Mode with §e"+victim.getName());
-								victim.sendMessage("§c[§6iControlU§c] §e"+p.getName()+" §cdeactivated Control Mode with §eYou");
+								p.sendMessage("Â§c[Â§6iControlUÂ§c] Â§eYou Â§cdeactivated Control Mode with Â§e"+victim.getName());
+								victim.sendMessage("Â§c[Â§6iControlUÂ§c] Â§e"+p.getName()+" Â§cdeactivated Control Mode with Â§eYou");
 							}else{
 								p.sendMessage(ChatColor.RED+"["+ChatColor.GOLD+"iControlU"+ChatColor.RED+"]"+ChatColor.RED+" You are not in Control Mode!");
 							}
@@ -228,7 +228,7 @@ public class iControlU extends JavaPlugin {
 							p.sendMessage(ChatColor.RED+"["+ChatColor.GOLD+"iControlU"+ChatColor.RED+"]"+ChatColor.RED+" You don't have permission!");
 						}
 					}else{
-						sender.sendMessage("§c[§6iControlU§c] You must be a player to run this command!");
+						sender.sendMessage("Â§c[Â§6iControlUÂ§c] You must be a player to run this command!");
 					}
 				}else{
 					sender.sendMessage(ChatColor.RED+"["+ChatColor.GOLD+"iControlU"+ChatColor.RED+"]"+ChatColor.RED+" Wrong command or usage!");

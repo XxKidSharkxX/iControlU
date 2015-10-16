@@ -20,12 +20,12 @@ public class CheckVictim extends BukkitRunnable{
 					if(v.getWorld().getName().equalsIgnoreCase(c.getWorld().getName())){
 						if(v.getLocation().distance(c.getLocation()) > 15){
 							v.teleport(c);
-							TitleAPI.sendTitle(v, 20, 20, 60, "ง4TOO FAR AWAY", "");
+							TitleAPI.sendTitle(v, 20, 20, 60, "ยง4TOO FAR AWAY", "");
 						}
 					}else{
 						v.teleport(c);
 						v.setGameMode(GameMode.SPECTATOR);
-						TitleAPI.sendTitle(v, 20, 20, 60, "ง4SWITCHED WORLDS", "");
+						TitleAPI.sendTitle(v, 20, 20, 60, "ยง4SWITCHED WORLDS", "");
 					}
 				}else{
 					this.cancel();

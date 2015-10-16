@@ -28,23 +28,23 @@ public class CommandGUI implements Listener{
 		v=vict;
 		plugin=cl;
 		
-		gui = Bukkit.createInventory(null, 9, "§8§ki §8Run Command §ki");
+		gui = Bukkit.createInventory(null, 9, "Â§8Â§ki Â§8Run Command Â§ki");
 		
 		ItemStack rat = new ItemStack(Material.BARRIER);
 		ItemMeta im = rat.getItemMeta();
-		im.setDisplayName("§c§lRun as "+v.getName());
+		im.setDisplayName("Â§cÂ§lRun as "+v.getName());
 		List<String> lore = new ArrayList<String>();
-		lore.add("§7Runs the command as your target");
-		lore.add("§7Command: §6"+cmd);
+		lore.add("Â§7Runs the command as your target");
+		lore.add("Â§7Command: Â§6"+cmd);
 		im.setLore(lore);
 		rat.setItemMeta(im);
 		
 		ItemStack raa = new ItemStack(Material.ARROW);
 		ItemMeta im2 = raa.getItemMeta();
-		im2.setDisplayName("§c§lRun as "+c.getName());
+		im2.setDisplayName("Â§cÂ§lRun as "+c.getName());
 		List<String> lore2 = new ArrayList<String>();
-		lore2.add("§7Run the command as yourself");
-		lore2.add("§7Command: §6"+cmd);
+		lore2.add("Â§7Run the command as yourself");
+		lore2.add("Â§7Command: Â§6"+cmd);
 		im2.setLore(lore2);
 		raa.setItemMeta(im2);
 		
