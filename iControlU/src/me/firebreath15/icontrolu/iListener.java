@@ -1,7 +1,5 @@
 package me.firebreath15.icontrolu;
 
-import me.libraryaddict.disguise.DisguiseAPI;
-
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
@@ -15,6 +13,8 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerKickEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.metadata.FixedMetadataValue;
+
+import me.libraryaddict.disguise.DisguiseAPI;
 
 public class iListener implements Listener{
 
