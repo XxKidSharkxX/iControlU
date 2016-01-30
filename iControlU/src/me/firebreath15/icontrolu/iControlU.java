@@ -1,9 +1,8 @@
 package me.firebreath15.icontrolu;
 
+import java.util.ArrayList;
 import java.util.HashMap;
-
-import me.libraryaddict.disguise.DisguiseAPI;
-import me.libraryaddict.disguise.disguisetypes.PlayerDisguise;
+import java.util.List;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -17,13 +16,30 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
+import me.libraryaddict.disguise.DisguiseAPI;
+import me.libraryaddict.disguise.disguisetypes.PlayerDisguise;
+
 public class iControlU extends JavaPlugin {
 
-	public HashMap<String, ItemStack[]> inventory = new HashMap<String,ItemStack[]>();
-	public HashMap<String, ItemStack[]> armor = new HashMap<String,ItemStack[]>();
+	public HashMap<String, ItemStack[]> inventory;
+	public HashMap<String, ItemStack[]> armor;
+	public List<String> cd;
+	public int maxControlTime;
+	public int cooldown;
+	public boolean showMessages;
 
 	public void onEnable() {
 		this.getServer().getPluginManager().registerEvents(new iListener(this), this);
+		this.saveDefaultConfig();
+		this.reloadConfig();
+		
+		armor = new HashMap<String,ItemStack[]>();
+		inventory = new HashMap<String,ItemStack[]>();
+		
+		maxControlTime = this.getConfig().getInt("maxControlTime");
+		cooldown = this.getConfig().getInt("cooldown");
+		showMessages = this.getConfig().getBoolean("showMessages");
+		cd=new ArrayList<String>();
 	}
 	
 	// Made by FireBreath15
@@ -33,12 +49,13 @@ public class iControlU extends JavaPlugin {
 		if(cmd.getName().equalsIgnoreCase("icu")){
 			if(args.length == 0 || args.length > 3){
 				String version = this.getDescription().getVersion().toString(); 
-				sender.sendMessage(ChatColor.YELLOW+"==========[ iControlU Help v"+version+"]==========");
+				sender.sendMessage(ChatColor.YELLOW+"==========[ iControlU Help "+version+"]==========");
 				sender.sendMessage(ChatColor.BLUE+"/icu control [controller] <player>"+ChatColor.GREEN+" Enter Control Mode.");
 				sender.sendMessage(ChatColor.BLUE+"/icu stop [controller]"+ChatColor.GREEN+" Exit Control Mode.");
+				sender.sendMessage(ChatColor.BLUE+"/icu reload"+ChatColor.GREEN+" Reload the plugin.");
 				sender.sendMessage("");
 				sender.sendMessage(ChatColor.DARK_PURPLE+"Created by FireBreath15");
-				sender.sendMessage(ChatColor.YELLOW+"==========[ iControlU Help v"+version+"]==========");
+				sender.sendMessage(ChatColor.YELLOW+"==========[ iControlU Help "+version+"]==========");
 			}
 			
 			if(args.length == 3){
@@ -51,27 +68,37 @@ public class iControlU extends JavaPlugin {
 								if(victim != null){
 									if(!victim.hasMetadata("iCU_P")){
 										if(victim != p){
-											if(!(victim.hasPermission("icu.exempt"))){											
-												victim.setMetadata("iCU_P", new FixedMetadataValue(this,p.getName()));
-												p.setMetadata("iCU_H", new FixedMetadataValue(this,victim.getName()));
+											if(!(victim.hasPermission("icu.exempt"))){
+												if(!cd.contains(p.getName())){
+													victim.setMetadata("iCU_P", new FixedMetadataValue(this,p.getName()));
+													p.setMetadata("iCU_H", new FixedMetadataValue(this,victim.getName()));
+														
+													this.inventory.put(p.getName(), p.getInventory().getContents());
+													this.armor.put(p.getName(), p.getInventory().getArmorContents());
+													p.getInventory().setContents(victim.getInventory().getContents());
+													p.getInventory().setArmorContents(victim.getInventory().getArmorContents());
 													
-												this.inventory.put(p.getName(), p.getInventory().getContents());
-												this.armor.put(p.getName(), p.getInventory().getArmorContents());
-												p.getInventory().setContents(victim.getInventory().getContents());
-												p.getInventory().setArmorContents(victim.getInventory().getArmorContents());
-												
-												p.teleport(victim);
-												victim.setGameMode(GameMode.SPECTATOR);
+													p.teleport(victim);
+													victim.setGameMode(GameMode.SPECTATOR);
+														
+													PlayerDisguise disV = new PlayerDisguise(victim.getName());
+													DisguiseAPI.disguiseToAll(p, disV);
+											
+													//Start a handling task
+													new CheckVictim(victim, p).runTaskTimer(this, 100, 100);
 													
-												PlayerDisguise disV = new PlayerDisguise(victim.getName());
-												DisguiseAPI.disguiseToAll(p, disV);
-										
-												//Start a handling task
-												new CheckVictim(victim, p).runTaskTimer(this, 100, 100);
-												
-												this.setVictimCamera(victim, p);
-												p.sendMessage("§c[§6iControlU§c] §e"+sender.getName()+" §aactivated your Control Mode with §e"+victim.getName());
-												victim.sendMessage("§c[§6iControlU§c] §e"+p.getName()+" §aactivated Control Mode with §eYou");
+													this.setVictimCamera(victim, p);
+													p.sendMessage("§c[§6iControlU§c] §e"+sender.getName()+" §aactivated your Control Mode with §e"+victim.getName());
+													
+													if(showMessages)
+														victim.sendMessage("§c[§6iControlU§c] §e"+p.getName()+" §aactivated Control Mode with §eYou");
+													
+													//Start a limit timer if configured to do so
+													if(maxControlTime > 0)
+														new ControlTimer(p,victim,this).runTaskLater(this, maxControlTime*20);
+												}else{
+													p.sendMessage("§c[§6iControlU§c] §cSystem must cool down!");
+												}
 											}else{
 												sender.sendMessage(ChatColor.RED+"["+ChatColor.GOLD+"iControlU"+ChatColor.RED+"]"+ChatColor.RED+victim.getName()+" cannot be controlled!");
 											}
@@ -108,27 +135,37 @@ public class iControlU extends JavaPlugin {
 								if(victim != null){
 									if(!victim.hasMetadata("iCU_P")){
 										if(victim != p){
-											if(!(victim.hasPermission("icu.exempt"))){												
-												victim.setMetadata("iCU_P", new FixedMetadataValue(this,p.getName()));
-												p.setMetadata("iCU_H", new FixedMetadataValue(this,victim.getName()));
-												
-												this.inventory.put(p.getName(), p.getInventory().getContents());
-												this.armor.put(p.getName(), p.getInventory().getArmorContents());
-												p.getInventory().setContents(victim.getInventory().getContents());
-												p.getInventory().setArmorContents(victim.getInventory().getArmorContents());
-												
-												p.teleport(victim);
-												victim.setGameMode(GameMode.SPECTATOR);
-												
-												PlayerDisguise disV = new PlayerDisguise(victim.getName());
-												DisguiseAPI.disguiseToAll(p, disV);
-										
-												//Start a handling task
-												new CheckVictim(victim, p).runTaskTimer(this, 100, 100);
-												
-												this.setVictimCamera(victim, p);
-												p.sendMessage("§c[§6iControlU§c] §eYou §aactivated Control Mode with §e"+victim.getName());
-												victim.sendMessage("§c[§6iControlU§c] §e"+p.getName()+" §aactivated Control Mode with §eYou");
+											if(!(victim.hasPermission("icu.exempt"))){
+												if(!cd.contains(p.getName())){
+													victim.setMetadata("iCU_P", new FixedMetadataValue(this,p.getName()));
+													p.setMetadata("iCU_H", new FixedMetadataValue(this,victim.getName()));
+													
+													this.inventory.put(p.getName(), p.getInventory().getContents());
+													this.armor.put(p.getName(), p.getInventory().getArmorContents());
+													p.getInventory().setContents(victim.getInventory().getContents());
+													p.getInventory().setArmorContents(victim.getInventory().getArmorContents());
+													
+													p.teleport(victim);
+													victim.setGameMode(GameMode.SPECTATOR);
+													
+													PlayerDisguise disV = new PlayerDisguise(victim.getName());
+													DisguiseAPI.disguiseToAll(p, disV);
+											
+													//Start a handling task
+													new CheckVictim(victim, p).runTaskTimer(this, 100, 100);
+													
+													this.setVictimCamera(victim, p);
+													p.sendMessage("§c[§6iControlU§c] §eYou §aactivated Control Mode with §e"+victim.getName());
+													
+													if(showMessages)
+														victim.sendMessage("§c[§6iControlU§c] §e"+p.getName()+" §aactivated Control Mode with §eYou");
+													
+													//Start a limit timer if configured to do so
+													if(maxControlTime > 0)
+														new ControlTimer(p,victim,this).runTaskLater(this, maxControlTime*20);
+												}else{
+													p.sendMessage("§c[§6iControlU§c] §cSystem must cool down!");
+												}
 											}else{
 												p.sendMessage(ChatColor.RED+"["+ChatColor.GOLD+"iControlU"+ChatColor.RED+"]"+ChatColor.RED+" You can't control that player!");
 											}
@@ -177,8 +214,16 @@ public class iControlU extends JavaPlugin {
 									
 									this.unsetVictimCamera(victim);
 									otherp.sendMessage("§c[§6iControlU§c] §eYou §cdeactivated Control Mode with §e"+victim.getName());
-									victim.sendMessage("§c[§6iControlU§c] §e"+otherp.getName()+" §cdeactivated Control Mode with §eYou");
+									
+									if(showMessages)
+										victim.sendMessage("§c[§6iControlU§c] §e"+otherp.getName()+" §cdeactivated Control Mode with §eYou");
+									
 									sender.sendMessage("§c[§6iControlU§c] §e"+otherp.getName()+" §6is no longer controlling §e"+victim.getName());
+									
+									if(cooldown > 0){
+										cd.add(otherp.getName());
+										new Cooldown(this, otherp).runTaskLater(this, cooldown*20);
+									}
 								}else{
 									sender.sendMessage("§c[§6iControlU§c] That player is not controlling anyone!");
 								}
@@ -220,7 +265,14 @@ public class iControlU extends JavaPlugin {
 								
 								this.unsetVictimCamera(victim);
 								p.sendMessage("§c[§6iControlU§c] §eYou §cdeactivated Control Mode with §e"+victim.getName());
-								victim.sendMessage("§c[§6iControlU§c] §e"+p.getName()+" §cdeactivated Control Mode with §eYou");
+								
+								if(showMessages)
+									victim.sendMessage("§c[§6iControlU§c] §e"+p.getName()+" §cdeactivated Control Mode with §eYou");
+								
+								if(cooldown > 0){
+									cd.add(p.getName());
+									new Cooldown(this, p).runTaskLater(this, cooldown*20);
+								}
 							}else{
 								p.sendMessage(ChatColor.RED+"["+ChatColor.GOLD+"iControlU"+ChatColor.RED+"]"+ChatColor.RED+" You are not in Control Mode!");
 							}
@@ -231,7 +283,15 @@ public class iControlU extends JavaPlugin {
 						sender.sendMessage("§c[§6iControlU§c] You must be a player to run this command!");
 					}
 				}else{
-					sender.sendMessage(ChatColor.RED+"["+ChatColor.GOLD+"iControlU"+ChatColor.RED+"]"+ChatColor.RED+" Wrong command or usage!");
+					if(args[0].equalsIgnoreCase("reload")){
+						this.reloadConfig();
+						maxControlTime = this.getConfig().getInt("maxControlTime");
+						cooldown = this.getConfig().getInt("cooldown");
+						showMessages = this.getConfig().getBoolean("showMessages");
+						sender.sendMessage("§c[§6iControlU§c] §aConfiguration Reloaded");
+					}else{
+						sender.sendMessage(ChatColor.RED+"["+ChatColor.GOLD+"iControlU"+ChatColor.RED+"]"+ChatColor.RED+" Wrong command or usage!");
+					}
 				}
 			}
 		return true;
