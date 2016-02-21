@@ -42,7 +42,7 @@ public class iControlU extends JavaPlugin {
 		cd=new ArrayList<String>();
 	}
 	
-	// Made by FireBreath15
+	// Made by xFyreWolfx
 
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String args[]){
 
@@ -61,49 +61,24 @@ public class iControlU extends JavaPlugin {
 			if(args.length == 3){
 				if(args[0].equalsIgnoreCase("control")){
 					if(sender.hasPermission("icu.control")){
-						Player p = Bukkit.getPlayer(args[1]);
+						Player otherp = Bukkit.getPlayer(args[1]);
 						Player victim = this.getServer().getPlayer(args[2]);
-						if(p != null){
-							if(!p.hasMetadata("iCU_H")){
+						if(otherp != null){
+							if(!otherp.hasMetadata("iCU_H")){
 								if(victim != null){
 									if(!victim.hasMetadata("iCU_P")){
-										if(victim != p){
+										if(victim != otherp){
 											if(!(victim.hasPermission("icu.exempt"))){
-												if(!cd.contains(p.getName())){
-													victim.setMetadata("iCU_P", new FixedMetadataValue(this,p.getName()));
-													p.setMetadata("iCU_H", new FixedMetadataValue(this,victim.getName()));
-														
-													this.inventory.put(p.getName(), p.getInventory().getContents());
-													this.armor.put(p.getName(), p.getInventory().getArmorContents());
-													p.getInventory().setContents(victim.getInventory().getContents());
-													p.getInventory().setArmorContents(victim.getInventory().getArmorContents());
-													
-													p.teleport(victim);
-													victim.setGameMode(GameMode.SPECTATOR);
-														
-													PlayerDisguise disV = new PlayerDisguise(victim.getName());
-													DisguiseAPI.disguiseToAll(p, disV);
-											
-													//Start a handling task
-													new CheckVictim(victim, p).runTaskTimer(this, 100, 100);
-													
-													this.setVictimCamera(victim, p);
-													p.sendMessage("§c[§6iControlU§c] §e"+sender.getName()+" §aactivated your Control Mode with §e"+victim.getName());
-													
-													if(showMessages)
-														victim.sendMessage("§c[§6iControlU§c] §e"+p.getName()+" §aactivated Control Mode with §eYou");
-													
-													//Start a limit timer if configured to do so
-													if(maxControlTime > 0)
-														new ControlTimer(p,victim,this).runTaskLater(this, maxControlTime*20);
+												if(!cd.contains(otherp.getName())){
+													this.startControlling(victim, otherp);
 												}else{
-													p.sendMessage("§c[§6iControlU§c] §cSystem must cool down!");
+													otherp.sendMessage("§c[§6iControlU§c] §cSystem must cool down!");
 												}
 											}else{
 												sender.sendMessage(ChatColor.RED+"["+ChatColor.GOLD+"iControlU"+ChatColor.RED+"]"+ChatColor.RED+victim.getName()+" cannot be controlled!");
 											}
 										}else{
-											p.sendMessage(ChatColor.RED+"["+ChatColor.GOLD+"iControlU"+ChatColor.RED+"]"+ChatColor.RED+p.getName()+" can already control themself!");
+											otherp.sendMessage(ChatColor.RED+"["+ChatColor.GOLD+"iControlU"+ChatColor.RED+"]"+ChatColor.RED+otherp.getName()+" can already control themself!");
 										}
 									}else{
 										sender.sendMessage(ChatColor.RED+"["+ChatColor.GOLD+"iControlU"+ChatColor.RED+"]"+ChatColor.RED+victim.getName()+" is already being controlled!");
@@ -137,32 +112,7 @@ public class iControlU extends JavaPlugin {
 										if(victim != p){
 											if(!(victim.hasPermission("icu.exempt"))){
 												if(!cd.contains(p.getName())){
-													victim.setMetadata("iCU_P", new FixedMetadataValue(this,p.getName()));
-													p.setMetadata("iCU_H", new FixedMetadataValue(this,victim.getName()));
-													
-													this.inventory.put(p.getName(), p.getInventory().getContents());
-													this.armor.put(p.getName(), p.getInventory().getArmorContents());
-													p.getInventory().setContents(victim.getInventory().getContents());
-													p.getInventory().setArmorContents(victim.getInventory().getArmorContents());
-													
-													p.teleport(victim);
-													victim.setGameMode(GameMode.SPECTATOR);
-													
-													PlayerDisguise disV = new PlayerDisguise(victim.getName());
-													DisguiseAPI.disguiseToAll(p, disV);
-											
-													//Start a handling task
-													new CheckVictim(victim, p).runTaskTimer(this, 100, 100);
-													
-													this.setVictimCamera(victim, p);
-													p.sendMessage("§c[§6iControlU§c] §eYou §aactivated Control Mode with §e"+victim.getName());
-													
-													if(showMessages)
-														victim.sendMessage("§c[§6iControlU§c] §e"+p.getName()+" §aactivated Control Mode with §eYou");
-													
-													//Start a limit timer if configured to do so
-													if(maxControlTime > 0)
-														new ControlTimer(p,victim,this).runTaskLater(this, maxControlTime*20);
+													this.startControlling(victim, p);
 												}else{
 													p.sendMessage("§c[§6iControlU§c] §cSystem must cool down!");
 												}
@@ -193,37 +143,10 @@ public class iControlU extends JavaPlugin {
 							Player otherp = Bukkit.getPlayer(args[1]);
 							if(otherp != null){
 								if(otherp.hasMetadata("iCU_H")){
-									//stop their controlling
 									Player victim = Bukkit.getPlayer(otherp.getMetadata("iCU_H").get(0).asString());
-									otherp.addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY,200,1));
-									
-									victim.removeMetadata("iCU_P", this);
-									victim.setGameMode(GameMode.SURVIVAL);
-										
-									otherp.removeMetadata("iCU_H", this);
-									DisguiseAPI.undisguiseToAll(otherp);
-									
-									//Give the victim their inventory back
-									victim.getInventory().setContents(otherp.getInventory().getContents());
-									victim.getInventory().setArmorContents(otherp.getInventory().getArmorContents());
-									
-									otherp.getInventory().setContents(inventory.get(otherp.getName()));
-									otherp.getInventory().setArmorContents(armor.get(otherp.getName()));
-									inventory.remove(otherp.getName());
-									armor.remove(otherp.getName());
-									
-									this.unsetVictimCamera(victim);
-									otherp.sendMessage("§c[§6iControlU§c] §eYou §cdeactivated Control Mode with §e"+victim.getName());
-									
-									if(showMessages)
-										victim.sendMessage("§c[§6iControlU§c] §e"+otherp.getName()+" §cdeactivated Control Mode with §eYou");
+									this.stopControlling(victim, otherp);
 									
 									sender.sendMessage("§c[§6iControlU§c] §e"+otherp.getName()+" §6is no longer controlling §e"+victim.getName());
-									
-									if(cooldown > 0){
-										cd.add(otherp.getName());
-										new Cooldown(this, otherp).runTaskLater(this, cooldown*20);
-									}
 								}else{
 									sender.sendMessage("§c[§6iControlU§c] That player is not controlling anyone!");
 								}
@@ -246,33 +169,7 @@ public class iControlU extends JavaPlugin {
 						if(p.hasPermission("icu.stop")){
 							if(p.hasMetadata("iCU_H")){
 								Player victim = Bukkit.getPlayer(p.getMetadata("iCU_H").get(0).asString());
-								p.addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY,200,1));
-								
-								victim.removeMetadata("iCU_P", this);
-								victim.setGameMode(GameMode.SURVIVAL);
-									
-								p.removeMetadata("iCU_H", this);
-								DisguiseAPI.undisguiseToAll(p);
-								
-								//Give the victim their inventory back
-								victim.getInventory().setContents(p.getInventory().getContents());
-								victim.getInventory().setArmorContents(p.getInventory().getArmorContents());
-								
-								p.getInventory().setContents(inventory.get(p.getName()));
-								p.getInventory().setArmorContents(armor.get(p.getName()));
-								inventory.remove(p.getName());
-								armor.remove(p.getName());
-								
-								this.unsetVictimCamera(victim);
-								p.sendMessage("§c[§6iControlU§c] §eYou §cdeactivated Control Mode with §e"+victim.getName());
-								
-								if(showMessages)
-									victim.sendMessage("§c[§6iControlU§c] §e"+p.getName()+" §cdeactivated Control Mode with §eYou");
-								
-								if(cooldown > 0){
-									cd.add(p.getName());
-									new Cooldown(this, p).runTaskLater(this, cooldown*20);
-								}
+								this.stopControlling(victim, p);
 							}else{
 								p.sendMessage(ChatColor.RED+"["+ChatColor.GOLD+"iControlU"+ChatColor.RED+"]"+ChatColor.RED+" You are not in Control Mode!");
 							}
@@ -300,11 +197,63 @@ public class iControlU extends JavaPlugin {
 		return false;
 	}
 	
-	public void setVictimCamera(Player v, Player c){
-		c.setPassenger(v);
+	public void stopControlling(Player v, Player c){
+		//Call ONLY when both players are online
+		c.addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY,200,1));
+			
+		v.removeMetadata("iCU_P", this);
+		v.setGameMode(GameMode.SURVIVAL);
+				
+		c.removeMetadata("iCU_H", this);
+		DisguiseAPI.undisguiseToAll(c);
+			
+		//Give victim their "new" inventory
+		v.getInventory().setContents(c.getInventory().getContents());
+		v.getInventory().setArmorContents(c.getInventory().getArmorContents());
+			
+		//Give controller the original inventory back
+		c.getInventory().setContents(inventory.get(c.getName()));
+		c.getInventory().setArmorContents(armor.get(c.getName()));
+		inventory.remove(c.getName());
+		armor.remove(c.getName());
+			
+		v.teleport(c);
+		c.sendMessage("§c[§6iControlU§c] §eYou §cdeactivated Control Mode with §e"+v.getName());
+			
+		if(showMessages)
+			v.sendMessage("§c[§6iControlU§c] §e"+c.getName()+" §cdeactivated Control Mode with §eYou");
+		
+		if(cooldown > 0){
+			cd.add(c.getName());
+			new Cooldown(this, c).runTaskLater(this, cooldown*20);
+		}
 	}
 	
-	public void unsetVictimCamera(Player v){
-		v.leaveVehicle();
+	public void startControlling(Player v, Player c){
+		v.setMetadata("iCU_P", new FixedMetadataValue(this,c.getName()));
+		c.setMetadata("iCU_H", new FixedMetadataValue(this,v.getName()));
+		
+		this.inventory.put(c.getName(), c.getInventory().getContents());
+		this.armor.put(c.getName(), c.getInventory().getArmorContents());
+		c.getInventory().setContents(v.getInventory().getContents());
+		c.getInventory().setArmorContents(v.getInventory().getArmorContents());
+		
+		c.teleport(v);
+		v.setGameMode(GameMode.SPECTATOR);
+		
+		PlayerDisguise disV = new PlayerDisguise(v.getName());
+		DisguiseAPI.disguiseToAll(c, disV);
+
+		//Start a handling task
+		new CheckVictim(v, c).runTaskTimer(this, 100, 100);
+		
+		c.sendMessage("§c[§6iControlU§c] §eYou §aactivated Control Mode with §e"+v.getName());
+		
+		if(showMessages)
+			v.sendMessage("§c[§6iControlU§c] §e"+c.getName()+" §aactivated Control Mode with §eYou");
+		
+		//Start a limit timer if configured to do so
+		if(maxControlTime > 0)
+			new ControlTimer(c,v,this).runTaskLater(this, maxControlTime*20);
 	}
 }

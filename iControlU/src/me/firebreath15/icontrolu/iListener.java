@@ -103,7 +103,6 @@ public class iListener implements Listener{
 
 			DisguiseAPI.undisguiseToAll(c);
 			p.setGameMode(GameMode.SURVIVAL);
-			plugin.unsetVictimCamera(p);
 		}else{
 			if(p.hasMetadata("iCU_H")){
 				Player v = Bukkit.getPlayer(p.getMetadata("iCU_H").get(0).asString());
@@ -123,7 +122,6 @@ public class iListener implements Listener{
 
 				DisguiseAPI.undisguiseToAll(p);
 				v.setGameMode(GameMode.SURVIVAL);
-				plugin.unsetVictimCamera(v);
 			}
 		}
 	}
@@ -150,7 +148,6 @@ public class iListener implements Listener{
 
 			DisguiseAPI.undisguiseToAll(c);
 			p.setGameMode(GameMode.SURVIVAL);
-			plugin.unsetVictimCamera(p);
 		}else{
 			if(p.hasMetadata("iCU_H")){
 				Player v = Bukkit.getPlayer(p.getMetadata("iCU_H").get(0).asString());
@@ -170,7 +167,6 @@ public class iListener implements Listener{
 
 				DisguiseAPI.undisguiseToAll(p);
 				v.setGameMode(GameMode.SURVIVAL);
-				plugin.unsetVictimCamera(v);
 			}
 		}
 	}
