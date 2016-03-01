@@ -20,10 +20,13 @@ Every server admin loves having a little trolling fun, and with iControlU, now y
 #-Commands-
 
 /icu control [controller] <player> - control a player
+
 /icu stop [controller] - exit Control Mode and return your target to normal.
 
 #-Permissions-
 
 icu.control -- allows use of /icu control
+
 icu.stop -- allows use of /icu stop
+
 icu.exempt -- players with this node cannot be controlled
