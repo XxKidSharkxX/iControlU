@@ -3,6 +3,9 @@ See here: https://www.spigotmc.org/resources/icontrolu.158/
 
 A Bukkit/Spigot plugin that enables server operators to control the chats, movements, commands and inventories of other players.
 
+## Minecraft 1.9
+Need iControlU for Minecraft 1.9? See here: https://www.spigotmc.org/resources/1-9-icontrolu-premium.20034/
+
 #-What is it?-
 
 iControlU is a popular Minecraft trolling plugin that aims to add mind control to your server. With iCU, players with permission are able to control the chats, movements and inventories of others! Popularized by YouTube celebrities like ZexyZek, iControlU is a fun and unique way to troll your players.
