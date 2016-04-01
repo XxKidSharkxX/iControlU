@@ -4,7 +4,7 @@ See here: https://www.spigotmc.org/resources/icontrolu.158/
 A Bukkit/Spigot plugin that enables server operators to control the chats, movements, commands and inventories of other players.
 
 ## Minecraft 1.9
-Need iControlU for Minecraft 1.9? See here: https://www.spigotmc.org/resources/1-9-icontrolu-premium.20034/
+Need iControlU for Minecraft 1.9? See here: https://www.spigotmc.org/resources/1-9-icontrolu-2-0.20034/
 
 #-What is it?-
 
