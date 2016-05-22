@@ -1,4 +1,4 @@
-# iControlU (Free, v1.9.7) 
+# iControlU (Free, v1.9.8) 
 See here: https://www.spigotmc.org/resources/icontrolu.158/
 
 A Bukkit/Spigot plugin that enables server operators to control the chats, movements, commands and inventories of other players.
