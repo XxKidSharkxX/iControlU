@@ -255,7 +255,5 @@ public class iControlU extends JavaPlugin {
 		//Start a limit timer if configured to do so
 		if(maxControlTime > 0)
 			new ControlTimer(c,v,this).runTaskLater(this, maxControlTime*20);
-		
-		new Get(c).runTaskLater(this, 260);
 	}
 }
